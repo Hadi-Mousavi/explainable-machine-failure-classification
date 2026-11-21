@@ -19,7 +19,8 @@ observation-level classification.
 
 The [research protocol](docs/research_protocol.md) specifies the later training
 cross-validation, validation-only threshold selection, and one final held-out
-test evaluation. Day 2 implements the first two training-only baselines.
+test evaluation. Day 2 establishes fixed baselines. Day 3 compares those
+baselines with two tree families on the same frozen training folds.
 
 ## Day 1 results
 
@@ -53,6 +54,30 @@ The synthetic observations and unverified time and equipment structure limit
 these findings to the simulator. Operational alert utility and industrial
 generalization remain open questions. See the [Day 2 methods](docs/day2_baselines.md),
 [fold measurements](results/day2/fold_metrics.csv), and [figures](results/day2/figures).
+
+## Day 3 model selection
+
+Balanced histogram gradient boosting ranked first among 27 configurations,
+with mean five-fold Average Precision of **0.759824**. The best random forest
+reached 0.747959. Fixed logistic regression reached 0.458571 with equal
+weights and 0.439010 with balanced weights. The prior dummy scored 0.033833.
+These results describe rankings of synthetic observations on the training folds
+used for selection. Held-out performance and operational alert utility remain unknown.
+
+Each tree search sampled six structures and evaluated both class weights for
+each structure. Balancing reduced mean AP for all six forests and increased
+it for three of six boosting structures. The leading boosting configurations
+differed by 0.001266 AP. See the [selection rule and interpretation](docs/day3_model_selection.md),
+[all 27 configurations and fold scores](results/day3/model_comparison.md),
+and [three figures](results/day3/figures).
+
+With the local frozen training export available, run the comparison and its
+isolated replay from the repository root.
+
+```sh
+uv run --locked ai4i-pm compare-models
+uv run --locked python scripts/verify_day3.py
+```
 
 ## Reproduce Day 2
 
@@ -105,10 +130,12 @@ accepts `--root PATH` before the subcommand when running from another directory.
 | [src/ai4i_pm](src/ai4i_pm) | CLI and reusable acquisition, schema, audit, split, and analysis modules |
 | [configs/day1.toml](configs/day1.toml) | Frozen split settings |
 | [configs/day2.toml](configs/day2.toml) | Approved input digests, models, CV and diagnostic settings |
+| [configs/day3.toml](configs/day3.toml) | Frozen Day 2 input digests, seeds, search spaces and paired sampling budget |
 | [docs](docs) | Research protocol, dataset attribution, and leakage controls |
 | [notebooks/01_eda.ipynb](notebooks/01_eda.ipynb) and [scripts](scripts) | Notebook, execution, and reproducibility verification |
 | [results/day1](results/day1) | Provenance, integrity audit, frozen memberships, training descriptor, training summaries, and seven figures |
 | [results/day2](results/day2) | Paired training-fold assignments, model specifications, metrics, OOF scores, curves, figures and execution hashes |
+| [results/day3](results/day3) | Candidate and fold ledgers, weight contrasts, provisional specification, figures and execution hashes |
 | [tests](tests) and [.github/workflows/ci.yml](.github/workflows/ci.yml) | Offline tests and automated quality checks |
 
 Raw UCI files, the training CSV, and the executed notebook are local outputs

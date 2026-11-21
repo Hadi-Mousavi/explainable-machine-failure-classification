@@ -1,0 +1,82 @@
+{
+  "comparisons": [
+    {
+      "candidate_id": "dummy_prior-01",
+      "evaluation": "fixed CV",
+      "family": "dummy_prior",
+      "label": "Prior dummy \u00b7 fixed CV",
+      "mean_ap": 0.03383333333333334,
+      "sample_sd": 0.0004564354645876376,
+      "settings": "{}"
+    },
+    {
+      "candidate_id": "logistic_regression-01",
+      "evaluation": "fixed CV",
+      "family": "logistic_regression",
+      "label": "Logistic regression (unweighted) \u00b7 fixed CV",
+      "mean_ap": 0.45857050707071484,
+      "sample_sd": 0.042854975771039736,
+      "settings": "{\"class_weight\": null}"
+    },
+    {
+      "candidate_id": "logistic_regression-02",
+      "evaluation": "fixed CV",
+      "family": "logistic_regression",
+      "label": "Logistic regression (balanced) \u00b7 fixed CV",
+      "mean_ap": 0.43900993203854577,
+      "sample_sd": 0.02242632301099453,
+      "settings": "{\"class_weight\": \"balanced\"}"
+    },
+    {
+      "candidate_id": "random_forest-11",
+      "evaluation": "selection CV",
+      "family": "random_forest",
+      "label": "Random forest \u00b7 selection CV",
+      "mean_ap": 0.7479591660984611,
+      "sample_sd": 0.07718952033000198,
+      "settings": "{\"class_weight\": null, \"max_depth\": 16, \"min_samples_leaf\": 1, \"n_estimators\": 300}"
+    },
+    {
+      "candidate_id": "hist_gradient_boosting-10",
+      "evaluation": "selection CV",
+      "family": "hist_gradient_boosting",
+      "label": "Histogram boosting \u00b7 selection CV",
+      "mean_ap": 0.7598244807640298,
+      "sample_sd": 0.04877927259306835,
+      "settings": "{\"class_weight\": \"balanced\", \"l2_regularization\": 1.0, \"learning_rate\": 0.1, \"max_iter\": 100, \"max_leaf_nodes\": 31}"
+    }
+  ],
+  "partition": "train",
+  "positives": 203,
+  "prevalence": 0.03383333333333333,
+  "ranking": [
+    "hist_gradient_boosting-10",
+    "hist_gradient_boosting-12",
+    "random_forest-11",
+    "random_forest-03",
+    "hist_gradient_boosting-05",
+    "hist_gradient_boosting-03",
+    "hist_gradient_boosting-06",
+    "hist_gradient_boosting-01",
+    "hist_gradient_boosting-09",
+    "hist_gradient_boosting-11",
+    "random_forest-09",
+    "hist_gradient_boosting-08",
+    "random_forest-01",
+    "hist_gradient_boosting-07",
+    "hist_gradient_boosting-04",
+    "random_forest-05",
+    "hist_gradient_boosting-02",
+    "random_forest-07",
+    "random_forest-12",
+    "random_forest-04",
+    "random_forest-02",
+    "random_forest-10",
+    "random_forest-08",
+    "random_forest-06",
+    "logistic_regression-01",
+    "logistic_regression-02",
+    "dummy_prior-01"
+  ],
+  "rows": 6000
+}

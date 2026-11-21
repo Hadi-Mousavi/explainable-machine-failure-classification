@@ -10,13 +10,17 @@ from sklearn.metrics import (
 )
 
 
+def fold_average_precision(actual, scores, positive_class=1) -> float:
+    return float(average_precision_score(actual, scores, pos_label=positive_class))
+
+
 def fold_metrics(actual, scores, metrics: dict) -> dict:
     positive = metrics["positive_class"]
     labels = (scores >= metrics["diagnostic_threshold"]).astype(int)
     options = {"pos_label": positive, "zero_division": metrics["zero_division"]}
     tn, fp, fn, tp = confusion_matrix(actual, labels, labels=[0, 1]).ravel()
     return {
-        "average_precision": float(average_precision_score(actual, scores, pos_label=positive)),
+        "average_precision": fold_average_precision(actual, scores, positive),
         "diagnostic_threshold": metrics["diagnostic_threshold"],
         "precision": float(precision_score(actual, labels, **options)),
         "recall": float(recall_score(actual, labels, **options)),

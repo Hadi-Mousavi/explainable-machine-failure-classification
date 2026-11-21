@@ -34,6 +34,7 @@ def main(argv: list[str] | None = None) -> int:
     split.add_argument("--reason", help="Required audit reason for an override")
     commands.add_parser("eda", help="Generate training-only figures and observations")
     commands.add_parser("baselines", help="Evaluate fixed baselines on frozen training folds")
+    commands.add_parser("compare-models", help="Compare classifiers on the saved Day 2 folds")
     args = parser.parse_args(argv)
     root = args.root.resolve()
     try:
@@ -56,6 +57,10 @@ def main(argv: list[str] | None = None) -> int:
             print(json.dumps(result["validation"], indent=2))
         elif args.command == "baselines":
             print(json.dumps(run_baselines(root), indent=2))
+        elif args.command == "compare-models":
+            from ai4i_pm.comparison import run_comparison
+
+            print(json.dumps(run_comparison(root), indent=2))
         else:
             result = generate_eda(root)
             print(f"EDA: {result['rows']} training rows; {len(result['figures'])} PNG figures")

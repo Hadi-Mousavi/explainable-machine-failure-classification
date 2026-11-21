@@ -1,0 +1,47 @@
+{
+  "candidate_id": "hist_gradient_boosting-10",
+  "classifier_parameters": {
+    "categorical_features": "from_dtype",
+    "class_weight": "balanced",
+    "early_stopping": false,
+    "interaction_cst": null,
+    "l2_regularization": 1.0,
+    "learning_rate": 0.1,
+    "loss": "log_loss",
+    "max_bins": 255,
+    "max_depth": null,
+    "max_features": 1.0,
+    "max_iter": 100,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 20,
+    "monotonic_cst": null,
+    "n_iter_no_change": 10,
+    "random_state": 42,
+    "scoring": "loss",
+    "tol": 1e-07,
+    "validation_fraction": 0.1,
+    "verbose": 0,
+    "warm_start": false
+  },
+  "cv_manifest_sha256": "1ddf0178f0561ec5b03f61931ba0db84a7e49a625eb7e4e9d36d137e1def1636",
+  "evaluation": "selection CV",
+  "family": "hist_gradient_boosting",
+  "mean_ap": 0.7598244807640298,
+  "predictors": [
+    "Type",
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]"
+  ],
+  "sample_sd": 0.04877927259306835,
+  "settings": {
+    "class_weight": "balanced",
+    "l2_regularization": 1.0,
+    "learning_rate": 0.1,
+    "max_iter": 100,
+    "max_leaf_nodes": 31
+  },
+  "status": "provisional"
+}
