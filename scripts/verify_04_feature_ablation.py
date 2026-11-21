@@ -16,12 +16,12 @@ def validate_inventory(folder):
     if record["fold_evaluations"] != 60 or record["artifacts_sha256"] != {
         k: v for k, v in hashes.items() if k != "execution.json"
     }:
-        raise ValueError("Day 4 output inventory or evaluation count differs")
+        raise ValueError("Phase 04 output inventory or evaluation count differs")
     return record, hashes
 
 
-def verify(root):
-    output = root / "results/day4"
+def verify(root: Path) -> None:
+    output = root / "results/04_feature_ablation"
     original, hashes = validate_inventory(output)
     with TemporaryDirectory() as directory:
         isolated = Path(directory)
@@ -29,7 +29,7 @@ def verify(root):
             (isolated / name).parent.mkdir(parents=True, exist_ok=True)
             copyfile(root / name, isolated / name)
         run_ablations(isolated)
-        replica = isolated / "results/day4"
+        replica = isolated / "results/04_feature_ablation"
         replay, new_hashes = validate_inventory(replica)
         if (
             original["inputs_sha256"] != replay["inputs_sha256"]
@@ -43,6 +43,22 @@ def verify(root):
                 for folder in (output, replica)
             ]
             pd.testing.assert_frame_equal(actual, repeated, rtol=0, atol=1e-12)
+        for key in (
+            "partition",
+            "fold_evaluations",
+            "command",
+            "environment",
+            "platform",
+            "a0_max_absolute_error",
+        ):
+            if original[key] != replay[key]:
+                raise ValueError(f"Replay execution metadata differs: {key}")
+        if read_json(output / "ablation_summary.json") != read_json(
+            replica / "ablation_summary.json"
+        ):
+            raise ValueError(
+                "Replay summary differs from the recorded model and feature comparisons"
+            )
         changed = [name for name in hashes if hashes[name] != new_hashes[name]]
         print(
             f"Reproduced 60 fold scores and their paired comparisons within 1e-12. "

@@ -65,7 +65,7 @@ def _restore_source(
     root: Path, raw_path: Path, archive_path: Path, manual: Path | None
 ) -> dict[str, Any]:
     """Verify existing files and restore missing bytes against recorded digests."""
-    metadata = read_json(root / "results/day1/provenance.json")
+    metadata = read_json(root / "results/01_data_exploration/provenance.json")
     has_raw = raw_path.exists()
     expected_archive = metadata["archive_sha256"]
     has_archive = bool(expected_archive and archive_path.exists())
@@ -96,7 +96,7 @@ def _restore_source(
 
 def acquire(root: Path, manual: Path | None = None) -> dict[str, Any]:
     """Acquire official bytes or restore an original acquisition from its provenance."""
-    provenance_path = root / "results/day1/provenance.json"
+    provenance_path = root / "results/01_data_exploration/provenance.json"
     raw_path = root / "data/raw/ai4i2020.csv"
     archive_path = root / "data/raw/uci_ai4i_2020.zip"
     if provenance_path.exists():
@@ -145,7 +145,7 @@ def acquire(root: Path, manual: Path | None = None) -> dict[str, Any]:
 
 def load_raw(root: Path) -> tuple[pd.DataFrame, str]:
     """Require provenance and verify original byte checksum before reading data."""
-    metadata = read_json(root / "results/day1/provenance.json")
+    metadata = read_json(root / "results/01_data_exploration/provenance.json")
     path = root / "data/raw/ai4i2020.csv"
     checksum = sha256_file(path)
     if checksum != metadata["csv_sha256"]:

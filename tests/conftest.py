@@ -45,14 +45,14 @@ def research_root(tmp_path: Path) -> Path:
     raw.parent.mkdir(parents=True)
     make_test_frame(10_000).to_csv(raw, index=False)
     write_json(
-        tmp_path / "results/day1/provenance.json",
+        tmp_path / "results/01_data_exploration/provenance.json",
         {
             "csv_sha256": sha256_file(raw),
             "archive_sha256": None,
             "method": "ARTIFICIAL TEST FIXTURE; NOT RESEARCH DATA",
         },
     )
-    config = tmp_path / "configs/day1.toml"
+    config = tmp_path / "configs/01_data_exploration.toml"
     config.parent.mkdir()
     config.write_text(
         "[split]\nseed = 42\ntest_fraction = 0.2\nvalidation_fraction_of_remainder = 0.25\n",

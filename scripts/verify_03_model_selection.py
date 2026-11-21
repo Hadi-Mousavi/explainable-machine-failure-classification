@@ -29,7 +29,9 @@ def validate_ledger(root, output):
     config = read_json(output / "search_config.json")
     metrics = read_table(output, "candidate_fold_metrics.csv")
     trials = read_table(output, "candidate_results.csv").set_index("candidate_id")
-    memberships = read_json(root / "results/day2/cv_manifest.json")["evaluation_udis"]
+    memberships = read_json(root / "results/02_baseline_evaluation/cv_manifest.json")[
+        "evaluation_udis"
+    ]
     grouped = metrics.groupby("candidate_id")
     if not trials.index.is_unique or set(grouped.groups) != set(trials.index):
         raise ValueError("Incomplete candidate or fold ledger")
@@ -102,8 +104,8 @@ def validate_ledger(root, output):
     return execution
 
 
-def verify(root):
-    output = root / "results/day3"
+def verify(root: Path) -> None:
+    output = root / "results/03_model_selection"
     recorded = validate_ledger(root, output)
     with TemporaryDirectory() as directory:
         isolated = Path(directory)
@@ -111,7 +113,7 @@ def verify(root):
             (isolated / name).parent.mkdir(parents=True, exist_ok=True)
             copyfile(root / name, isolated / name)
         run_comparison(isolated)
-        replica = isolated / "results/day3"
+        replica = isolated / "results/03_model_selection"
         replay = validate_ledger(isolated, replica)
         for name in (
             "candidate_results.csv",
@@ -124,6 +126,14 @@ def verify(root):
         for name in ("search_config.json", "selected_configuration.json", "model_comparison.json"):
             if read_json(output / name) != read_json(replica / name):
                 raise ValueError(f"Replay differs: {name}")
+        for record in (recorded, replay):
+            record.pop("elapsed_seconds")
+            for history in record["families"].values():
+                history.pop("search_seconds")
+        if {k: v for k, v in recorded.items() if k != "artifacts_sha256"} != {
+            k: v for k, v in replay.items() if k != "artifacts_sha256"
+        } or recorded["artifacts_sha256"].keys() != replay["artifacts_sha256"].keys():
+            raise ValueError("Replay environment, inputs, search diagnostics or inventory changed")
         matching = sorted(
             name
             for name, digest in recorded["artifacts_sha256"].items()

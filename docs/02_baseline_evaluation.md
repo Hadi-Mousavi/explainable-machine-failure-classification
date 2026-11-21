@@ -1,8 +1,8 @@
-# Day 2 baseline methods
+# Phase 02 baseline methods
 
 The binary target is Machine failure (failure = 1). The frozen training export
-contains 6,000 observations, including 203 failures. Day 2 links the approved
-source digest to the Day 1 provenance and training descriptor. The Day 1 loader
+contains 6,000 observations, including 203 failures. Phase 02 links the approved
+source digest to the Phase 01 provenance and training descriptor. The Phase 01 loader
 hashes the split manifest and export, checks the UDI sequence, and validates the
 schema. Only the training CSV is parsed for observation values. Each pipeline
 accepts exactly Type, the two temperatures, rotational speed, torque and tool
@@ -23,7 +23,7 @@ The dummy classifier assigns the fit-fold failure prevalence to every evaluation
 row. Its fold AP therefore equals the *evaluation* prevalence. Logistic
 regression uses C = 1, lbfgs, a 2,000-iteration limit, seed 42 and equal
 observation weights. The fixed specifications and locked library defaults are
-recorded in [model_specs.json](../results/day2/model_specs.json).
+recorded in [model_specs.json](../results/02_baseline_evaluation/model_specs.json).
 
 ## Reading the metrics
 
@@ -54,9 +54,9 @@ generation, limited positive support and absent equipment IDs and verified
 timestamps restrict inference about field performance and prospective failures.
 Primary validation and test observations remain reserved for later approval.
 
-The [execution record](../results/day2/execution.json) lists the environment and
+The [execution record](../results/02_baseline_evaluation/execution.json) lists the environment and
 SHA-256 digests. The replay command in the [README](../README.md) verifies the
 saved fold/OOF identities and compares two runs on the same environment. Numeric
 libraries, fonts and rendering backends can affect bytes across platforms.
 The derived results use the synthetic UCI AI4I 2020 dataset under CC BY 4.0.
-See the [Day 1 provenance and attribution](dataset.md).
+See the [Phase 01 provenance and attribution](dataset.md).

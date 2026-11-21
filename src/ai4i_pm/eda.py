@@ -21,7 +21,7 @@ def generate_eda(root: Path) -> dict[str, Any]:
     """Load only the training artifact, create figures and save measured observations."""
     train = load_training(root)
     features = predictor_matrix(train)
-    output = root / "results/day1/figures"
+    output = root / "results/01_data_exploration/figures"
     output.mkdir(parents=True, exist_ok=True)
     sns.set_theme(style="whitegrid", context="paper", font_scale=1.15, palette=PALETTE)
     plt.rcParams.update({"figure.dpi": 120, "savefig.dpi": 300, "axes.titleweight": "bold"})
@@ -167,7 +167,7 @@ def generate_eda(root: Path) -> dict[str, Any]:
         "failure_modes_examined": False,
         "models_trained": False,
     }
-    write_json(root / "results/day1/eda_summary.json", summary)
+    write_json(root / "results/01_data_exploration/eda_summary.json", summary)
     lines = [
         "# Training-only exploratory analysis",
         "",
@@ -202,7 +202,7 @@ def generate_eda(root: Path) -> dict[str, Any]:
         "nor future failure forecasting. No failure-mode comparisons, models, or thresholds",
         "were used.",
     ]
-    (root / "results/day1/eda.md").write_text(
+    (root / "results/01_data_exploration/eda.md").write_text(
         "\n".join(lines) + "\n", encoding="utf-8", newline="\n"
     )
     return summary

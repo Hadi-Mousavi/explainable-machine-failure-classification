@@ -1,4 +1,4 @@
-# Day 4 feature ablation on frozen training folds
+# Phase 04 feature ablation on frozen training folds
 
 Adding temperature difference and mechanical power to the six original predictors
 raised mean Average Precision (AP) from 0.759824 to 0.848176 for histogram gradient
@@ -14,11 +14,11 @@ causality, prospective failure prediction, or industrial generalization.
 
 ## Prespecified design
 
-Day 4 began on clean commit `eca2f5e855750d8473e827de3396b711e2f55d6c`.
-The configuration was written before fitting and retained SHA-256
+The ablation design builds on commit `eca2f5e855750d8473e827de3396b711e2f55d6c`.
+The original prespecified configuration had SHA-256
 `2216505b89179c8f5856dbd65cade068218121f171e12268e5e4b6a63ebe11bf`.
-It specifies the exact ordered columns, the two candidates, the baseline,
-input digests and paired analysis. [Frozen configuration](../configs/day4.toml)
+The migrated configuration retains the exact ordered columns, the two candidates, the baseline,
+input digests and paired analysis. [Frozen configuration](../configs/04_feature_ablation.toml)
 
 The original inputs are Type, air temperature (K), process temperature (K),
 rotational speed (rpm), torque (N·m) and Tool wear (min). The only derived inputs
@@ -36,7 +36,7 @@ operates on measurements from a single row and preserves its UDI index.
 | A4 | All six | ΔT and mechanical power |
 | A5 | All except Tool wear | ΔT and mechanical power |
 
-The primary estimator is the provisional Day 3 HGB-10. It uses learning rate 0.1,
+The primary estimator is the provisional Phase 03 HGB-10. It uses learning rate 0.1,
 100 boosting iterations, up to 31 leaves, L2 regularization 1.0, balanced class
 weights, disabled early stopping and seed 42. Secondary RF-11 uses 300 trees,
 depth 16, minimum leaf size 1, bootstrap sampling, square-root feature sampling,
@@ -44,22 +44,22 @@ equal class weights, one worker and seed 42. The runner restores every saved
 estimator argument, including defaults, and checks the parameter inventory against
 the locked estimator. Both use dense, fold-local one-hot encoding of Type with unseen
 categories ignored, and numeric passthrough. Fits are serial with one native thread.
-[Complete specifications and fold descriptors](../results/day4/ablation_config.json)
+[Complete specifications and fold descriptors](../results/04_feature_ablation/ablation_config.json)
 
-The source CSV digest was verified through frozen Day 1 provenance and the approved
-training descriptor. Day 4 hashed the primary split manifest, read the checksum-verified
-training export, and mapped the Day 2 evaluation UDIs to rows. The complement of
+The source CSV digest was verified through frozen Phase 01 provenance and the approved
+training descriptor. Phase 04 hashed the primary split manifest, read the checksum-verified
+training export, and mapped the Phase 02 evaluation UDIs to rows. The complement of
 each evaluation fold supplied its 4,800 fit rows. The same 1,200 rows were scored for
 each model and condition on that fold. Across all 6,000 training rows there were
 203 positive labels. Folds 1–5 contained 40, 40, 41, 41 and 41 positives.
 The primary validation and test observations, raw source and failure-mode indicators
-were outside the input inventory. [Input and output hashes](../results/day4/execution.json)
+were outside the input inventory. [Input and output hashes](../results/04_feature_ablation/execution.json)
 
 ## Paired results
 
 AP uses continuous scores for Machine failure = 1. Each reported mean gives the
 five folds equal weight. Each difference compares one condition with A0 for the
-same model on the same evaluation UDIs. All ten A0 fold scores matched the Day 3
+same model on the same evaluation UDIs. All ten A0 fold scores matched the Phase 03
 scores exactly under an absolute tolerance of 1e-12.
 
 | Set | HGB mean AP | Sample SD | Mean Δ | Folds above A0 | RF mean AP | Sample SD | Mean Δ | Folds above A0 |
@@ -73,7 +73,7 @@ scores exactly under an absolute tolerance of 1e-12.
 
 The full paired table gives each AP, each difference and the positive counts.
 Values above are rounded after computing all differences.
-[Fold-by-fold AP and paired differences](../results/day4/ablation_summary.md)
+[Fold-by-fold AP and paired differences](../results/04_feature_ablation/ablation_summary.md)
 
 - **A1, remove Tool wear.** Every fold lost AP. HGB showed the larger mean drop.
   Wear contributed ranking information that the remaining inputs did not recover
@@ -102,7 +102,7 @@ can compete at a split. The experiment cannot separate these mechanisms.
 
 There are only 40 or 41 failures in an evaluation fold, so changes in the ranks of a
 few positives can affect AP. Sample SD uses denominator four and describes fold
-dispersion. The fits overlap, and Day 3 chose the two models using these same folds.
+dispersion. The fits overlap, and Phase 03 chose the two models using these same folds.
 Selection optimism and dependence limit inference about generalization. The five
 differences provide no significance test or confidence interval. HGB-10 retains
 its provisional status. Supervisor review is needed before adopting a feature set,
@@ -110,15 +110,15 @@ changing the primary model, or authorizing another phase.
 
 ## Figures and reproduction
 
-- [AP by condition and model](../results/day4/figures/ap_comparison.png)
-- [Paired fold differences from A0](../results/day4/figures/paired_differences.png)
-- [Mean feature effects across models](../results/day4/figures/cross_model_effects.png)
+- [AP by condition and model](../results/04_feature_ablation/figures/ap_comparison.png)
+- [Paired fold differences from A0](../results/04_feature_ablation/figures/paired_differences.png)
+- [Mean feature effects across models](../results/04_feature_ablation/figures/cross_model_effects.png)
 
 From the project root with the approved training export, use the locked environment.
 
 ```sh
 uv run --locked ai4i-pm ablations
-uv run --locked python scripts/verify_day4.py
+uv run --locked python scripts/verify_04_feature_ablation.py
 uv run --locked pytest -q
 uv run --locked ruff check .
 uv run --locked ruff format --check .
@@ -129,18 +129,4 @@ and lockfile into an isolated root and repeats all 60 fits. It checks the artifa
 inventory and summarizes byte matches as well as numerical agreement. The runner
 preserves existing results if a repeat differs. Software versions and platform are
 recorded because numerical and rendering behavior can vary across environments.
-[Execution record](../results/day4/execution.json)
-
-## Local verification
-
-With Python 3.12.16 and scikit-learn 1.9.1, the isolated Day 4 repeat reproduced
-all 60 AP values and paired comparisons. All ten output files, including the three
-figures and execution record, were byte-identical on this machine. Day 2 reproduced
-all eleven artifacts. The Day 3 replay after sharing the tree preprocessing code
-reproduced all 135 fold scores and nine of eleven files byte-for-byte. The two
-timing-bearing files vary by run.
-
-The complete local suite passed 109 tests. Four plotting-library deprecation
-warnings came from the existing Day 1 EDA test. Both Ruff checks passed.
-Unit tests use artificial data, and all experimental values above come from the
-approved training export.
+[Execution record](../results/04_feature_ablation/execution.json)

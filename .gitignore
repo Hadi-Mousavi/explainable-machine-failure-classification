@@ -26,7 +26,3 @@ Thumbs.db
 /results/**/*.joblib
 /results/**/*.parquet
 /notebooks/*_executed.ipynb
-/results/day1/pytest.xml
-/results/day1/file_inventory.txt
-/docs/day1_implementation_report.md
-/report/README.md

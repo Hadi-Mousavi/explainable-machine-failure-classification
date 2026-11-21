@@ -68,7 +68,7 @@ def test_manual_acquisition_idempotence_and_conflicts(research_root, tmp_path):
     # This tests mechanics only; it does not authenticate fixture provenance.
     destination = tmp_path / "imported_fixture"
     first = acquire(destination, official_like)
-    provenance = destination / "results/day1/provenance.json"
+    provenance = destination / "results/01_data_exploration/provenance.json"
     original = provenance.read_bytes()
     second = acquire(destination, official_like)
     assert first == second
@@ -122,7 +122,7 @@ def test_restore_missing_source_from_recorded_zip(research_root: Path, tmp_path:
     supplied.write_bytes(archive_bytes(["ai4i2020.csv"], csv))
     destination = tmp_path / "zip_fixture"
     metadata = acquire(destination, supplied)
-    provenance = destination / "results/day1/provenance.json"
+    provenance = destination / "results/01_data_exploration/provenance.json"
     original_provenance = provenance.read_bytes()
     archive = destination / "data/raw/uci_ai4i_2020.zip"
     raw = destination / "data/raw/ai4i2020.csv"

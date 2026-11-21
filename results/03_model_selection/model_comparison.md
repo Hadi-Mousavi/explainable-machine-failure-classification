@@ -2,7 +2,7 @@
 
 Highest mean fold AP provisionally selects **hist_gradient_boosting-10**.
 
-Fixed configurations and searched configurations share the Day 2 fold memberships. Selection on these folds makes the winning score optimistic. Sample SD describes fold variation. Candidate IDs map to complete settings and timing in [candidate_results.csv](candidate_results.csv).
+Fixed configurations and searched configurations share the Phase 02 fold memberships. Selection on these folds makes the winning score optimistic. Sample SD describes fold variation. Candidate IDs map to complete settings and timing in [candidate_results.csv](candidate_results.csv).
 
 | Candidate | Evaluation | Fold 1 | Fold 2 | Fold 3 | Fold 4 | Fold 5 | Mean AP | Sample SD |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: |

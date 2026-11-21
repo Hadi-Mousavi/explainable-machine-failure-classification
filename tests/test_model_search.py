@@ -1,4 +1,4 @@
-"""Offline Day 3 checks on the artificial training fixture and arbitrary fold assignments."""
+"""Offline Phase 03 checks on the artificial training fixture and arbitrary fold assignments."""
 
 import json
 import tomllib
@@ -27,8 +27,8 @@ from ai4i_pm.schema import IDENTIFIER, PREDICTORS, PROHIBITED, TARGET
 from ai4i_pm.utils import read_json, sha256_file
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = tomllib.loads((ROOT / "configs/day3.toml").read_text())
-BASE = tomllib.loads((ROOT / "configs/day2.toml").read_text())
+CONFIG = tomllib.loads((ROOT / "configs/03_model_selection.toml").read_text())
+BASE = tomllib.loads((ROOT / "configs/02_baseline_evaluation.toml").read_text())
 
 
 @pytest.fixture
@@ -184,16 +184,16 @@ def test_exact_ties_and_small_differences():
 def test_cli_uses_only_training_export_and_serializes_complete_results(exported_root, monkeypatch):
     root = exported_root
     run_baselines(root)
-    cfg = (ROOT / "configs/day3.toml").read_text()
+    cfg = (ROOT / "configs/03_model_selection.toml").read_text()
     for key, path in [
-        ("day2_config_sha256", "configs/day2.toml"),
-        ("cv_manifest_sha256", "results/day2/cv_manifest.json"),
-        ("day2_metrics_sha256", "results/day2/fold_metrics.csv"),
+        ("baseline_config_sha256", "configs/02_baseline_evaluation.toml"),
+        ("cv_manifest_sha256", "results/02_baseline_evaluation/cv_manifest.json"),
+        ("baseline_metrics_sha256", "results/02_baseline_evaluation/fold_metrics.csv"),
     ]:
         cfg = cfg.replace(CONFIG[key], sha256_file(root / path))
     cfg = cfg.replace("structures_per_family = 6", "structures_per_family = 1")
     cfg = cfg.replace("[150, 300]", "[2]").replace("[100, 200]", "[2]")
-    (root / "configs/day3.toml").write_text(cfg, encoding="utf-8")
+    (root / "configs/03_model_selection.toml").write_text(cfg, encoding="utf-8")
     csv_reads = []
     original_csv, original_open = pd.read_csv, Path.open
 
@@ -204,14 +204,20 @@ def test_cli_uses_only_training_export_and_serializes_complete_results(exported_
 
     def guarded_csv(path, *args, **kwargs):
         csv_reads.append(path.relative_to(root).as_posix())
-        assert csv_reads[-1] in {"data/processed/train.csv", "results/day2/fold_metrics.csv"}
+        assert csv_reads[-1] in {
+            "data/processed/train.csv",
+            "results/02_baseline_evaluation/fold_metrics.csv",
+        }
         return original_csv(path, *args, **kwargs)
 
     monkeypatch.setattr(Path, "open", guarded_open)
     monkeypatch.setattr(pd, "read_csv", guarded_csv)
     assert main(["--root", str(root), "compare-models"]) == 0
-    assert csv_reads == ["data/processed/train.csv", "results/day2/fold_metrics.csv"]
-    folder = root / "results/day3"
+    assert csv_reads == [
+        "data/processed/train.csv",
+        "results/02_baseline_evaluation/fold_metrics.csv",
+    ]
+    folder = root / "results/03_model_selection"
     record = read_json(folder / "execution.json")
     assert record["candidates"] == 7 and record["planned_fits"] == 35
     assert record["failed_folds"] == 0

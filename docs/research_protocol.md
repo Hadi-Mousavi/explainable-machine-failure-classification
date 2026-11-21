@@ -1,9 +1,6 @@
-# Research protocol — Day 1 freeze
+# Research protocol
 
-At the Day 1 freeze, this independent study covered data integrity, frozen
-partitions, and training-only exploration. [Day 2 baseline methods](day2_baselines.md)
-record the subsequent two-model comparison. The remaining modeling and evaluation
-plans below require supervisor approval before execution.
+The frozen primary design supports exploration, baseline evaluation, model selection and feature ablation. Explainability, robustness analysis and final evaluation are planned.
 
 ## Objective and research questions
 
@@ -32,7 +29,7 @@ Full-source integrity checks, target counts, category validity, and stratificati
 are allowed before splitting. They do not drive feature selection, outlier rules,
 or analytic comparisons. No observations are altered.
 
-The primary settings are `configs/day1.toml`: seed 42, first reserve 20% test,
+The primary settings are `configs/01_data_exploration.toml`: seed 42, first reserve 20% test,
 then reserve 25% of the remaining 80% as validation. This yields 60/20/20.
 Both stages use target-stratified `train_test_split`, with integer seed 42.
 UDI is sorted before stage one and the remainder is sorted before stage two;
@@ -53,18 +50,16 @@ hashes the frozen manifest without parsing held-out memberships or summaries.
 This is a workflow boundary, not an operating-system access restriction: a
 researcher can still read local raw files and must respect this protocol.
 
-## Future model selection and evaluation
+## Model selection and evaluation
 
 Prespecified comparators: Dummy Classifier, Logistic Regression, Random Forest,
-and Histogram-based Gradient Boosting. No corresponding model implementations
-or fitted artifacts are added on Day 1.
+and Histogram-based Gradient Boosting.
 
-Training-only model selection will use five-fold Stratified Cross-Validation
-with shuffling, a recorded fixed seed, identical folds across comparisons, and
-all learned preprocessing fitted inside each CV training fold. This includes
-scaling, encoding, imputation if ever justified, feature selection, and any
-resampling. Hyperparameter search spaces and imbalance treatments must be
-specified before running them. No resampling is performed on Day 1.
+Model selection used five shuffled, stratified folds with seed 42. Every
+candidate used the same training and evaluation UDIs. Each fit learned its
+category encoding and, for logistic regression, numeric scaling from its
+training fold. The registered search space included paired class-weight
+settings. All fits retained the observed training prevalence.
 
 The primary score is **Average Precision (AP)** from continuous positive-class
 scores. AP is a recall-increment-weighted sum of precision values; it is not
@@ -91,15 +86,15 @@ approved before test access; combining training and validation can change score
 calibration and invalidate a previously chosen threshold. Keep the baseline
 strategy as training-only fitting with validation thresholding unless amended.
 Uncertainty reporting for the small positive sample and any repeated-CV design
-must also be agreed before evaluation. No inferential claim is made on Day 1.
+must also be agreed before evaluation.
 
-## Future feature ablations (not implemented)
+## Prespecified feature ablations
 
 - Remove Tool wear while leaving all other primary controls fixed.
 - Add process minus air temperature, measured in K.
 - Add mechanical power in W as torque [Nm] times RPM times `2*pi/60`.
 
-Compare prespecified variants on identical training CV folds, with preprocessing
+The ablation study compared prespecified variants on identical training CV folds, with preprocessing
 inside the folds. These features may overlap synthetic generation rules. A gain
 can reflect recovery of a simulator's construction rather than physical insight
 or real equipment performance. Describe this overlap before interpreting gains;
@@ -123,5 +118,4 @@ SHAP-style explanations cannot establish physical causal effects. Neither
 equipment-level transfer nor a future failure horizon is demonstrated.
 
 Supervisor review is needed for threshold utility, search scope, uncertainty,
-refitting strategy, and the ordered sensitivity protocol. See the seven-day
-leakage plan in `docs/leakage_risks.md`.
+refitting strategy, and the ordered sensitivity protocol. [Leakage controls](leakage_risks.md)

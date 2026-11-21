@@ -27,14 +27,16 @@ def main(argv: list[str] | None = None) -> int:
     )
     commands.add_parser("audit", help="Full-source integrity verification only")
     split = commands.add_parser("split", help="Freeze primary partitions and training-only export")
-    split.add_argument("--seed", type=int, help="Explicit alternative to configs/day1.toml")
+    split.add_argument(
+        "--seed", type=int, help="Explicit alternative to configs/01_data_exploration.toml"
+    )
     split.add_argument(
         "--override", action="store_true", help="Archive and replace a changed split"
     )
     split.add_argument("--reason", help="Required audit reason for an override")
     commands.add_parser("eda", help="Generate training-only figures and observations")
     commands.add_parser("baselines", help="Evaluate fixed baselines on frozen training folds")
-    commands.add_parser("compare-models", help="Compare classifiers on the saved Day 2 folds")
+    commands.add_parser("compare-models", help="Compare classifiers on the saved Phase 02 folds")
     commands.add_parser("ablations", help="Evaluate fixed feature sets on the saved training folds")
     args = parser.parse_args(argv)
     root = args.root.resolve()

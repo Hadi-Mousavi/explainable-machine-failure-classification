@@ -1,4 +1,4 @@
-# Day 2 training cross-validation
+# Phase 02 training cross-validation
 
 6,000 observations, 203 failures (3.38%). Each model scored every training UDI once.
 
@@ -9,4 +9,4 @@
 
 AP weights precision by increments in recall. The SD describes the five fold scores. Diagnostics use score ≥ 0.5 and assign zero to undefined ratios. The threshold was fixed before fitting.
 
-These results describe synthetic training observations. See [fold metrics](fold_metrics.csv) and the [Day 2 protocol](../../docs/day2_baselines.md) for interpretation.
+These results describe synthetic training observations. See [fold metrics](fold_metrics.csv) and the [Phase 02 protocol](../../docs/02_baseline_evaluation.md) for interpretation.

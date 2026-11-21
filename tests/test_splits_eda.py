@@ -69,7 +69,7 @@ def test_invalid_digest_and_settings(source_frame):
 
 def test_frozen_manifest_repeat_and_override_history(research_root):
     first = freeze_split(research_root)
-    path = research_root / "results/day1/split_manifest.json"
+    path = research_root / "results/01_data_exploration/split_manifest.json"
     old_hash = sha256_file(path)
     assert freeze_split(research_root) == first
     assert sha256_file(path) == old_hash
@@ -81,10 +81,10 @@ def test_frozen_manifest_repeat_and_override_history(research_root):
     second = freeze_split(
         research_root, new_settings, override=True, reason="ARTIFICIAL TEST OVERRIDE"
     )
-    history = research_root / "results/day1/split_history" / f"{old_hash}.json"
+    history = research_root / "results/01_data_exploration/split_history" / f"{old_hash}.json"
     assert read_json(history) == first
     assert second["partitions"] != first["partitions"]
-    events = (research_root / "results/day1/split_overrides.jsonl").read_text()
+    events = (research_root / "results/01_data_exploration/split_overrides.jsonl").read_text()
     assert "ARTIFICIAL TEST OVERRIDE" in events and old_hash in events
     assert len(load_training(research_root)) == 6000
 
@@ -96,7 +96,7 @@ def test_split_linked_to_dataset_checksum(research_root):
         stream.write(b"\n")
     with pytest.raises(ValueError, match="checksum differs"):
         freeze_split(research_root)
-    provenance = research_root / "results/day1/provenance.json"
+    provenance = research_root / "results/01_data_exploration/provenance.json"
     data = read_json(provenance)
     data["csv_sha256"] = sha256_file(raw)
     write_json(provenance, data)
@@ -122,7 +122,7 @@ def test_eda_rejects_tampered_export_or_wrong_partition(research_root):
     with pytest.raises(ValueError, match="checksum mismatch"):
         generate_eda(research_root)
     csv.write_bytes(original)
-    descriptor = research_root / "results/day1/training_partition.json"
+    descriptor = research_root / "results/01_data_exploration/training_partition.json"
     data = read_json(descriptor)
     data["partition"] = "test"
     write_json(descriptor, data)
@@ -132,7 +132,7 @@ def test_eda_rejects_tampered_export_or_wrong_partition(research_root):
 
 def test_training_descriptor_rejects_changed_manifest(research_root):
     freeze_split(research_root)
-    manifest = research_root / "results/day1/split_manifest.json"
+    manifest = research_root / "results/01_data_exploration/split_manifest.json"
     manifest.write_bytes(manifest.read_bytes() + b"\n")
     with pytest.raises(ValueError, match="stale"):
         load_training(research_root)
@@ -157,4 +157,4 @@ def test_eda_reads_only_training_values(research_root, monkeypatch):
     assert not summary["models_trained"]
     assert len(summary["figures"]) == 7
     for name in summary["figures"]:
-        assert (research_root / "results/day1/figures" / name).is_file()
+        assert (research_root / "results/01_data_exploration/figures" / name).is_file()

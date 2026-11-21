@@ -105,4 +105,7 @@ def test_readable_audit_handles_no_positive_labels(source_frame, tmp_path, monke
     monkeypatch.setattr("ai4i_pm.audit.load_raw", lambda root: (source_frame, "a" * 64))
     report = run_audit(tmp_path)
     assert report["negative_to_positive_ratio"] is None
-    assert "undefined (no positive labels)" in (tmp_path / "results/day1/audit.md").read_text()
+    assert (
+        "undefined (no positive labels)"
+        in (tmp_path / "results/01_data_exploration/audit.md").read_text()
+    )

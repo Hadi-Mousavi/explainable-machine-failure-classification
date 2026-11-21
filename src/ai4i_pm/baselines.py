@@ -14,28 +14,39 @@ from ai4i_pm.splits import load_training
 from ai4i_pm.utils import environment_versions, read_json, sha256_file, write_json
 
 
-def verified_training(root, data):
-    day1 = root / "results/day1"
-    provenance = read_json(day1 / "provenance.json")
-    descriptor = read_json(day1 / "training_partition.json")
+def verified_training(root: Path, data: dict):
+    """Check the approved source, training membership and class support before fitting."""
+    exploration = root / "results/01_data_exploration"
+    provenance = read_json(exploration / "provenance.json")
+    descriptor = read_json(exploration / "training_partition.json")
     if provenance["csv_sha256"] != data["dataset_sha256"] or any(
         descriptor[key] != data[key]
         for key in ("dataset_sha256", "split_manifest_sha256", "training_sha256")
     ):
-        raise ValueError("Provenance or training descriptor differs from approved Day 2 hashes")
+        raise ValueError("Provenance or training descriptor differs from approved Phase 02 hashes")
     training = load_training(root)
     if len(training) != data["rows"] or training[TARGET].sum() != data["positives"]:
-        raise ValueError("Training support differs from the approved Day 2 counts")
+        raise ValueError("Training support differs from the approved Phase 02 counts")
     return training
 
 
 def run_baselines(root: Path) -> dict:
-    config_file = root / "configs/day2.toml"
+    config_file = root / "configs/02_baseline_evaluation.toml"
     with config_file.open("rb") as stream:
         config = tomllib.load(stream)
     training = verified_training(root, config["data"])
     pipelines = baseline_pipelines(config["models"])
-    folds, metrics, oof = cross_validate(training, pipelines, config["cv"], config["metrics"])
+    output = root / "results/02_baseline_evaluation"
+    manifest_path = output / "cv_manifest.json"
+    memberships = None
+    if manifest_path.exists():
+        manifest = read_json(manifest_path)
+        if manifest["settings"] != config["cv"] or manifest["inputs"] != config["data"]:
+            raise ValueError("Saved CV manifest differs from the baseline configuration")
+        memberships = manifest["evaluation_udis"]
+    folds, metrics, oof = cross_validate(
+        training, pipelines, config["cv"], config["metrics"], evaluation_udis=memberships
+    )
     sd_ddof = config["metrics"]["fold_ap_std_ddof"]
     summary = {
         "partition": "train",
@@ -51,7 +62,6 @@ def run_baselines(root: Path) -> dict:
             "std_fold_ap": group.average_precision.std(ddof=sd_ddof),
             "oof_confusion_counts": group[["tn", "fp", "fn", "tp"]].sum().to_dict(),
         }
-    output = root / "results/day2"
     output.mkdir(parents=True, exist_ok=True)
     with TemporaryDirectory(dir=output) as temp:
         stage = Path(temp)
@@ -101,7 +111,7 @@ def run_baselines(root: Path) -> dict:
         oof.to_csv(stage / "oof_predictions.csv", index=False, lineterminator="\n")
         write_json(stage / "baseline_summary.json", summary)
         lines = [
-            "# Day 2 training cross-validation",
+            "# Phase 02 training cross-validation",
             "",
             f"{len(training):,} observations, {summary['positives']} failures "
             f"({summary['prevalence']:.2%}). Each model scored every training UDI once.",
@@ -122,7 +132,7 @@ def run_baselines(root: Path) -> dict:
                 "",
                 "These results describe synthetic training observations. See "
                 "[fold metrics](fold_metrics.csv) and the "
-                "[Day 2 protocol](../../docs/day2_baselines.md) for interpretation.",
+                "[Phase 02 protocol](../../docs/02_baseline_evaluation.md) for interpretation.",
             ]
         )
         (stage / "baseline_summary.md").write_text(
@@ -133,8 +143,8 @@ def run_baselines(root: Path) -> dict:
         inputs = [
             config_file,
             root / "uv.lock",
-            root / "results/day1/provenance.json",
-            root / "results/day1/training_partition.json",
+            root / "results/01_data_exploration/provenance.json",
+            root / "results/01_data_exploration/training_partition.json",
         ]
         write_json(
             stage / "execution.json",
@@ -150,6 +160,12 @@ def run_baselines(root: Path) -> dict:
             },
         )
         for path in [*files, Path("execution.json")]:
-            (output / path).parent.mkdir(exist_ok=True)
-            (stage / path).replace(output / path)
+            destination = output / path
+            if destination.exists() and sha256_file(destination) != sha256_file(stage / path):
+                raise ValueError(f"Existing baseline evidence differs on replay: {path}")
+        for path in [*files, Path("execution.json")]:
+            destination = output / path
+            if not destination.exists():
+                destination.parent.mkdir(exist_ok=True)
+                (stage / path).rename(destination)
     return summary

@@ -85,7 +85,7 @@ def run_audit(root: Path) -> dict[str, Any]:
     report.update(dataset_sha256=checksum, environment=environment_versions())
     ratio = report["negative_to_positive_ratio"]
     ratio_text = f"{ratio:.3f}" if ratio is not None else "undefined (no positive labels)"
-    destination = root / "results/day1"
+    destination = root / "results/01_data_exploration"
     write_json(destination / "audit.json", report)
     lines = [
         "# Original dataset integrity audit",

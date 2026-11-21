@@ -49,7 +49,7 @@ class SplitSettings:
 
 def read_settings(root: Path) -> SplitSettings:
     """Read the version-controlled primary protocol configuration."""
-    with (root / "configs/day1.toml").open("rb") as stream:
+    with (root / "configs/01_data_exploration.toml").open("rb") as stream:
         return SplitSettings(**tomllib.load(stream)["split"])
 
 
@@ -177,7 +177,7 @@ def freeze_split(
         "sha256": sha256_bytes(csv),
         "columns": list(TRAINING_COLUMNS),
     }
-    destination = root / "results/day1/split_manifest.json"
+    destination = root / "results/01_data_exploration/split_manifest.json"
     manifest_content = json_bytes(manifest)
     manifest_hash = sha256_bytes(manifest_content)
     descriptor = {
@@ -188,7 +188,7 @@ def freeze_split(
         "row_ids": manifest["partitions"]["train"],
         "columns": list(TRAINING_COLUMNS),
     }
-    descriptor_path = root / "results/day1/training_partition.json"
+    descriptor_path = root / "results/01_data_exploration/training_partition.json"
     csv_path = root / "data/processed/train.csv"
     changed = destination.exists() and destination.read_bytes() != manifest_content
     if changed:
@@ -199,7 +199,7 @@ def freeze_split(
             )
         old = destination.read_bytes()
         old_hash = sha256_bytes(old)
-        preserve_bytes(root / f"results/day1/split_history/{old_hash}.json", old)
+        preserve_bytes(root / f"results/01_data_exploration/split_history/{old_hash}.json", old)
         if csv_path.exists():
             preserve_bytes(
                 root / f"data/processed/history/{sha256_file(csv_path)}.csv", csv_path.read_bytes()
@@ -211,7 +211,7 @@ def freeze_split(
             "new_manifest_sha256": manifest_hash,
         }
         # Append-only events; previous assignments are preserved by content hash.
-        history = root / "results/day1/split_overrides.jsonl"
+        history = root / "results/01_data_exploration/split_overrides.jsonl"
         with history.open("ab") as stream:
             stream.write((json.dumps(event, sort_keys=True) + "\n").encode())
         csv_path.write_bytes(csv)
@@ -237,11 +237,11 @@ def freeze_split(
 
 def load_training(root: Path) -> pd.DataFrame:
     """Read only the frozen training export; raw/validation/test values are never read."""
-    descriptor = read_json(root / "results/day1/training_partition.json")
+    descriptor = read_json(root / "results/01_data_exploration/training_partition.json")
     if descriptor["partition"] != "train":
         raise ValueError("EDA accepts the training partition only")
     if descriptor["split_manifest_sha256"] != sha256_file(
-        root / "results/day1/split_manifest.json"
+        root / "results/01_data_exploration/split_manifest.json"
     ):
         raise ValueError("Training descriptor is stale relative to the frozen split")
     csv_path = root / "data/processed/train.csv"

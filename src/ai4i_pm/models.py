@@ -1,4 +1,4 @@
-"""Prespecified Day 2 pipelines. Both models receive the same six predictors."""
+"""Prespecified Phase 02 pipelines. Both models receive the same six predictors."""
 
 import numpy as np
 import pandas as pd
@@ -14,14 +14,14 @@ from ai4i_pm.schema import NUMERIC_FEATURES, PREDICTORS
 def check_model_inputs(frame: pd.DataFrame) -> pd.DataFrame:
     """Reject extra, missing, duplicated or reordered columns at fit and score time."""
     if tuple(frame.columns) != PREDICTORS:
-        raise ValueError(f"Expected exactly the Day 2 predictors in order: {PREDICTORS}")
+        raise ValueError(f"Expected exactly the Phase 02 predictors in order: {PREDICTORS}")
     return frame
 
 
 def baseline_pipelines(models: dict) -> dict[str, Pipeline]:
     logistic = models["logistic_regression"].copy()
     if logistic.pop("class_weight") != "none":
-        raise ValueError("Day 2 requires unweighted logistic regression")
+        raise ValueError("Phase 02 requires unweighted logistic regression")
     estimators = {
         "dummy_prior": DummyClassifier(**models["dummy_prior"]),
         "logistic_regression": LogisticRegression(class_weight=None, **logistic),

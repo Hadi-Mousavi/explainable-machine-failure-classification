@@ -173,13 +173,13 @@
     ]
   },
   "configuration": {
+    "baseline_config_sha256": "aa0cc2a7104f8d8f875dc33b3014a7cc6b70a6011748ff8968ddfe4067328414",
+    "baseline_metrics_sha256": "774945a013ddabc98b8648d8179de2d0b635cbab59314b459452c7621628e87b",
     "class_weights": [
       "none",
       "balanced"
     ],
     "cv_manifest_sha256": "1ddf0178f0561ec5b03f61931ba0db84a7e49a625eb7e4e9d36d137e1def1636",
-    "day2_config_sha256": "e5eac81a6ff9e1d81f13dbad99f2d3f43161253e61f3d785bd152ed421d06d3c",
-    "day2_metrics_sha256": "774945a013ddabc98b8648d8179de2d0b635cbab59314b459452c7621628e87b",
     "hist_gradient_boosting": {
       "l2_regularization": [
         0.0,
@@ -270,7 +270,7 @@
     "Torque [Nm]",
     "Tool wear [min]"
   ],
-  "ranking_rule": "docs/day3_model_selection.md#prespecified-decision-rule",
+  "ranking_rule": "docs/03_model_selection.md#prespecified-decision-rule",
   "refit": false,
   "scoring": "average_precision_score",
   "sd_ddof": 1,

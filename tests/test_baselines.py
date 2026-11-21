@@ -1,4 +1,4 @@
-"""Day 2 regression tests use artificial observations exclusively."""
+"""Phase 02 regression tests use artificial observations exclusively."""
 
 import tomllib
 from pathlib import Path
@@ -19,7 +19,7 @@ from ai4i_pm.splits import build_manifest, training_csv
 from ai4i_pm.utils import read_json, sha256_bytes, sha256_file, write_json
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG = (ROOT / "configs/day2.toml").read_text(encoding="utf-8")
+CONFIG = (ROOT / "configs/02_baseline_evaluation.toml").read_text(encoding="utf-8")
 SETTINGS = tomllib.loads(CONFIG)
 
 
@@ -119,28 +119,29 @@ def test_folds_and_preprocessing_are_paired_and_isolated(source_frame, monkeypat
 @pytest.fixture
 def exported_root(tmp_path, source_frame):
     """An isolated partial checkout with only an artificial training export on disk."""
-    day1 = tmp_path / "results/day1"
+    exploration = tmp_path / "results/01_data_exploration"
     source_hash = sha256_bytes(source_frame.to_csv(index=False).encode())
     manifest = build_manifest(source_frame, source_hash)
-    write_json(day1 / "split_manifest.json", manifest)
+    write_json(exploration / "split_manifest.json", manifest)
     ids = manifest["partitions"]["train"]
     export = tmp_path / "data/processed/train.csv"
     export.parent.mkdir(parents=True)
     export.write_bytes(training_csv(source_frame, ids))
     refs = {
         "dataset_sha256": source_hash,
-        "split_manifest_sha256": sha256_file(day1 / "split_manifest.json"),
+        "split_manifest_sha256": sha256_file(exploration / "split_manifest.json"),
         "training_sha256": sha256_file(export),
     }
-    write_json(day1 / "provenance.json", {"csv_sha256": source_hash})
+    write_json(exploration / "provenance.json", {"csv_sha256": source_hash})
     write_json(
-        day1 / "training_partition.json", {**refs, "partition": "train", "row_ids": sorted(ids)}
+        exploration / "training_partition.json",
+        {**refs, "partition": "train", "row_ids": sorted(ids)},
     )
     config = CONFIG.replace("rows = 6000", "rows = 60").replace("positives = 203", "positives = 12")
     for key, digest in refs.items():
         config = config.replace(SETTINGS["data"][key], digest)
     (tmp_path / "configs").mkdir()
-    (tmp_path / "configs/day2.toml").write_text(config, encoding="utf-8")
+    (tmp_path / "configs/02_baseline_evaluation.toml").write_text(config, encoding="utf-8")
     copyfile(ROOT / "uv.lock", tmp_path / "uv.lock")
     return tmp_path
 
@@ -148,8 +149,8 @@ def exported_root(tmp_path, source_frame):
 @pytest.mark.parametrize(
     "key", ["dataset_sha256", "split_manifest_sha256", "training_sha256", "rows", "positives"]
 )
-def test_reject_wrong_day2_inputs(exported_root, key):
-    config = tomllib.loads((exported_root / "configs/day2.toml").read_text())
+def test_reject_wrong_baseline_inputs(exported_root, key):
+    config = tomllib.loads((exported_root / "configs/02_baseline_evaluation.toml").read_text())
     config["data"][key] = 0
     with pytest.raises(ValueError, match="approved"):
         verified_training(exported_root, config["data"])
@@ -174,7 +175,7 @@ def test_cli_reads_only_training_and_repeats_every_artifact(exported_root, monke
     monkeypatch.setattr(Path, "open", guard_open)
     monkeypatch.setattr(pd, "read_csv", guard_csv)
     assert main(["--root", str(root), "baselines"]) == 0
-    output = root / "results/day2"
+    output = root / "results/02_baseline_evaluation"
     execution = read_json(output / "execution.json")
     first_hash = sha256_file(output / "execution.json")
     run_baselines(root)
@@ -184,3 +185,12 @@ def test_cli_reads_only_training_and_repeats_every_artifact(exported_root, monke
         assert sha256_file(output / name) == digest
     for path, digest in execution["inputs_sha256"].items():
         assert sha256_file(root / path) == digest
+
+    manifest_path = output / "cv_manifest.json"
+    manifest = read_json(manifest_path)
+    folds = manifest["evaluation_udis"]
+    folds["1"][0], folds["2"][0] = folds["2"][0], folds["1"][0]
+    write_json(manifest_path, manifest)
+    with pytest.raises(ValueError, match="frozen CV manifest"):
+        run_baselines(root)
+    assert sha256_file(output / "execution.json") == first_hash

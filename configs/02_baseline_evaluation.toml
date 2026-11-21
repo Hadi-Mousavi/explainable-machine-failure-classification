@@ -1,4 +1,4 @@
-# Approved Day 1 inputs. The raw source is identified by its provenance digest.
+# Approved Phase 01 inputs. The raw source is identified by its provenance digest.
 [data]
 dataset_sha256 = "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e"
 split_manifest_sha256 = "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310"

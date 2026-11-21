@@ -1,4 +1,4 @@
-"""Day 4 unit and replay checks. All observations and scores here are artificial."""
+"""Phase 04 unit and replay checks. All observations and scores here are artificial."""
 
 import json
 import runpy
@@ -110,10 +110,10 @@ def test_fold_local_type_and_numeric_order(source_frame):
 @pytest.fixture
 def artificial_design(exported_root):
     root = exported_root
-    prior = tomllib.loads((root / "configs/day2.toml").read_text())
+    prior = tomllib.loads((root / "configs/02_baseline_evaluation.toml").read_text())
     data = load_training(root).set_index(IDENTIFIER).sort_index()
     x, y = data.loc[:, PREDICTORS], data[TARGET]
-    # Saved UDI order deliberately differs from the usual Day 2 splitter.
+    # Saved UDI order deliberately differs from the usual Phase 02 splitter.
     groups = [[] for _ in range(5)]
     offset = 0
     for _, part in data.groupby(TARGET):
@@ -183,7 +183,7 @@ def test_training_only_cli_reference_pairs_and_replay(artificial_design, monkeyp
 
     monkeypatch.setattr(Path, "open", guard)
     assert main(["--root", str(root), "ablations"]) == 0
-    output = root / "results/day4"
+    output = root / "results/04_feature_ablation"
     summary = pd.read_csv(output / "ablation_summary.csv")
     metrics = pd.read_csv(output / "ablation_fold_metrics.csv")
     assert len(metrics) == 60 and len(summary) == 12
@@ -203,7 +203,7 @@ def test_training_only_cli_reference_pairs_and_replay(artificial_design, monkeyp
         if row.condition == "A0":
             np.testing.assert_array_equal(part.ap, ref.ap)
     before = file_hashes(output)
-    runpy.run_path(str(ROOT / "scripts/verify_day4.py"))["verify"](root)
+    runpy.run_path(str(ROOT / "scripts/verify_04_feature_ablation.py"))["verify"](root)
     assert "10/10 artifacts byte-identical" in capsys.readouterr().out
     assert before == file_hashes(output)
     assert read_json(output / "execution.json")["artifacts_sha256"] == {

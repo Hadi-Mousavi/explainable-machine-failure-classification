@@ -1,4 +1,4 @@
-"""Run the frozen Day 4 experiment using approved training data and metadata."""
+"""Run the frozen Phase 04 experiment using approved training data and metadata."""
 
 import json
 import platform
@@ -27,18 +27,18 @@ from ai4i_pm.utils import (
     write_json,
 )
 
-CONFIG = "configs/day4.toml"
-FOLDS = "results/day2/cv_manifest.json"
-SELECTED = "results/day3/selected_configuration.json"
-CANDIDATES = "results/day3/candidate_results.csv"
-REFERENCE = "results/day3/candidate_fold_metrics.csv"
+CONFIG = "configs/04_feature_ablation.toml"
+FOLDS = "results/02_baseline_evaluation/cv_manifest.json"
+SELECTED = "results/03_model_selection/selected_configuration.json"
+CANDIDATES = "results/03_model_selection/candidate_results.csv"
+REFERENCE = "results/03_model_selection/candidate_fold_metrics.csv"
 INPUTS = (
-    "configs/day2.toml",
+    "configs/02_baseline_evaluation.toml",
     "uv.lock",
     "data/processed/train.csv",
-    "results/day1/provenance.json",
-    "results/day1/split_manifest.json",
-    "results/day1/training_partition.json",
+    "results/01_data_exploration/provenance.json",
+    "results/01_data_exploration/split_manifest.json",
+    "results/01_data_exploration/training_partition.json",
     FOLDS,
     SELECTED,
     CANDIDATES,
@@ -55,7 +55,7 @@ def load_design(root):
     cfg = tomllib.loads(config_bytes.decode())
     hashes = {name: sha256_file(root / name) for name in INPUTS}
     if cfg["inputs_sha256"] != hashes:
-        raise ValueError("An input differs from the frozen Day 4 inventory")
+        raise ValueError("An input differs from the frozen Phase 04 inventory")
     if (
         list(cfg["features"]) != [f"A{i}" for i in range(6)]
         or (cfg["primary_model"], cfg["secondary_model"]) != tuple(ESTIMATORS)
@@ -64,7 +64,7 @@ def load_design(root):
         or cfg["metric"] != "average_precision_score"
         or cfg["sd_ddof"] != 1
     ):
-        raise ValueError("Unexpected Day 4 experimental design")
+        raise ValueError("Unexpected Phase 04 experimental design")
     hashes[CONFIG] = sha256_bytes(config_bytes)
     return cfg, hashes
 
@@ -79,7 +79,7 @@ def fixed_specifications(root):
         row = table.loc[candidate]
         params = json.loads(row.classifier_parameters)
         if row.failed_folds != 0 or set(constructor().get_params(deep=False)) != set(params):
-            raise ValueError(f"Incomplete Day 3 specification for {candidate}")
+            raise ValueError(f"Incomplete Phase 03 specification for {candidate}")
         specs[candidate] = params
     primary = "hist_gradient_boosting-10"
     if (
@@ -123,9 +123,9 @@ def check_reference(rows, saved, atol):
         "eval_udis_sha256",
     ):
         if not np.array_equal(current[col], ref[col]):
-            raise ValueError(f"Day 3 reference membership differs for {candidate}")
+            raise ValueError(f"Phase 03 reference membership differs for {candidate}")
     if not np.allclose(current.ap, ref.ap, rtol=0, atol=atol):
-        raise ValueError(f"A0 AP differs from Day 3 for {candidate}")
+        raise ValueError(f"A0 AP differs from Phase 03 for {candidate}")
     return float(np.max(np.abs(current.ap.to_numpy() - ref.ap.to_numpy())))
 
 
@@ -139,7 +139,9 @@ def file_hashes(folder):
 
 def run_ablations(root: Path):
     cfg, hashes = load_design(root)
-    prior = tomllib.loads((root / "configs/day2.toml").read_text(encoding="utf-8"))
+    prior = tomllib.loads(
+        (root / "configs/02_baseline_evaluation.toml").read_text(encoding="utf-8")
+    )
     manifest = read_json(root / FOLDS)
     if manifest["inputs"] != prior["data"] or manifest["settings"] != prior["cv"]:
         raise ValueError("Fold manifest differs from frozen training provenance")
@@ -161,9 +163,9 @@ def run_ablations(root: Path):
         "training": prior["data"],
         "folds": records,
     }
-    output = root / "results/day4"
+    output = root / "results/04_feature_ablation"
     with TemporaryDirectory(dir=output.parent) as directory:
-        stage = Path(directory) / "day4"
+        stage = Path(directory) / "ablation"
         write_json(stage / "ablation_config.json", design)
         measurements, deviations = [], {}
         with threadpool_limits(limits=cfg["native_threads"]):
@@ -212,7 +214,9 @@ def run_ablations(root: Path):
         write_json(stage / "execution.json", execution)
         if output.exists():
             if file_hashes(output) != file_hashes(stage):
-                raise ValueError("Existing Day 4 outputs differ. Use an isolated root for replay.")
+                raise ValueError(
+                    "Existing Phase 04 outputs differ. Use an isolated root for replay."
+                )
         else:
             stage.rename(output)
     return execution

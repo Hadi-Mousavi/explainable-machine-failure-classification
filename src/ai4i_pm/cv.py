@@ -26,11 +26,15 @@ def assign_folds(target: pd.Series, cv: dict) -> pd.Series:
     return folds
 
 
-def cross_validate(training, pipelines, cv, metrics):
+def cross_validate(training, pipelines, cv, metrics, *, evaluation_udis=None):
     ordered = training.set_index(IDENTIFIER, verify_integrity=True).sort_index()
     target = ordered[TARGET]
     features = predictor_matrix(ordered)
     folds = assign_folds(target, cv)
+    if evaluation_udis is not None:
+        generated = {str(k): part.index.tolist() for k, part in folds.groupby(folds)}
+        if generated != evaluation_udis:
+            raise ValueError("Generated evaluation memberships differ from the frozen CV manifest")
     measurements, predictions = [], []
     for fold in sorted(folds.unique()):
         held = folds == fold

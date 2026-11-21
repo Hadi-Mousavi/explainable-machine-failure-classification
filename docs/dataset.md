@@ -17,7 +17,7 @@ follows the citation supplied by UCI.
 The original CSV is not rewritten. Acquisition retains the original archive,
 reads its sole `ai4i2020.csv` member in memory, verifies names/order/dimensions,
 and records exact original-file SHA-256 hashes and acquisition UTC time in
-`results/day1/provenance.json`. Acquisition restores missing local files only
+`results/01_data_exploration/provenance.json`. Acquisition restores missing local files only
 when their digests match the recorded source. Existing conflicting files are
 refused. Verification preserves the original acquisition record.
 Manual imports explicitly record user-attested official provenance; local
@@ -28,13 +28,13 @@ split manifests, and EDA figures are derived project outputs.
 The training export preserves
 selected values but changes row selection and serialization; it is not the
 original raw CSV. No cleaning, deduplication, imputation, or outlier removal is
-performed. See the [integrity audit](../results/day1/audit.md) for source counts.
+performed. See the [integrity audit](../results/01_data_exploration/audit.md) for source counts.
 
 The dataset is synthetic. Its six predictors approximate industrial measurements
 but do not demonstrate equipment-level generalization or future forecasting.
 The documentation sometimes names the identifier UID; the original CSV's UDI is
 the enforced source spelling. The original failure-mode columns remain in raw
-storage but are excluded from the training export and from Day 1 EDA.
+storage but are excluded from the training export and from Phase 01 EDA.
 
 The acquired file has Type counts L=6000, M=2997, H=1003. The UCI narrative
 describes nominal proportions L/M/H=50/30/20%, whereas the verified CSV has

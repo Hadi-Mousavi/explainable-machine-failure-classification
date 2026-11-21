@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "ai4i-pm"
 version = "0.1.0"
-description = "Reproducible Day 1 foundations for synthetic observation-level failure classification"
+description = "Reproducible equipment failure classification on the synthetic UCI AI4I 2020 dataset"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 license = "MIT"

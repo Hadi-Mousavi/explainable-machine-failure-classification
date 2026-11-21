@@ -28,27 +28,29 @@ from ai4i_pm.schema import IDENTIFIER, PREDICTORS, TARGET, predictor_matrix
 from ai4i_pm.utils import environment_versions, read_json, sha256_file, write_json
 
 INPUTS = (
-    "configs/day2.toml",
-    "configs/day3.toml",
+    "configs/02_baseline_evaluation.toml",
+    "configs/03_model_selection.toml",
     "uv.lock",
     "data/processed/train.csv",
-    "results/day1/split_manifest.json",
-    "results/day1/training_partition.json",
-    "results/day1/provenance.json",
-    "results/day2/cv_manifest.json",
-    "results/day2/fold_metrics.csv",
+    "results/01_data_exploration/split_manifest.json",
+    "results/01_data_exploration/training_partition.json",
+    "results/01_data_exploration/provenance.json",
+    "results/02_baseline_evaluation/cv_manifest.json",
+    "results/02_baseline_evaluation/fold_metrics.csv",
 )
 
 
 def verify_references(root, fold_table):
-    original = pd.read_csv(root / "results/day2/fold_metrics.csv", float_precision="round_trip")
+    original = pd.read_csv(
+        root / "results/02_baseline_evaluation/fold_metrics.csv", float_precision="round_trip"
+    )
     for family in FAMILIES[:2]:
         frozen = original[original.model == family].sort_values("fold")
         current = fold_table[fold_table.candidate_id == f"{family}-01"].sort_values("fold")
         if not np.array_equal(frozen.fold, current.fold) or not np.allclose(
             frozen.average_precision, current.ap, rtol=0, atol=1e-12
         ):
-            raise ValueError(f"Day 3 reference replay disagrees with Day 2: {family}")
+            raise ValueError(f"Phase 03 reference replay disagrees with Phase 02: {family}")
 
 
 def summary_records(ranked):
@@ -83,7 +85,7 @@ def write_report(path, rows, metrics, selected, pairs):
         "",
         f"Highest mean fold AP provisionally selects **{selected['candidate_id']}**.",
         "",
-        "Fixed configurations and searched configurations share the Day 2 fold memberships. "
+        "Fixed configurations and searched configurations share the Phase 02 fold memberships. "
         "Selection on these folds makes the winning score optimistic. Sample SD describes "
         "fold variation. Candidate IDs map to complete settings and timing in "
         "[candidate_results.csv](candidate_results.csv).",
@@ -113,24 +115,33 @@ def write_report(path, rows, metrics, selected, pairs):
     path.write_text("\n".join(lines) + "\n", encoding="utf-8", newline="\n")
 
 
-def run_comparison(root: Path):
+def run_comparison(root: Path) -> dict:
+    """Run the registered search and publish the complete ledger together."""
+    results = root / "results/03_model_selection"
+    if results.exists():
+        raise ValueError(
+            "A model-selection ledger already exists. Replay it with "
+            "scripts/verify_03_model_selection.py to preserve the original timing records."
+        )
     start = perf_counter()
     inputs = {name: sha256_file(root / name) for name in INPUTS}
-    cfg = tomllib.loads((root / "configs/day3.toml").read_text(encoding="utf-8"))
+    cfg = tomllib.loads((root / "configs/03_model_selection.toml").read_text(encoding="utf-8"))
     for name, key in (
-        ("configs/day2.toml", "day2_config_sha256"),
-        ("results/day2/cv_manifest.json", "cv_manifest_sha256"),
-        ("results/day2/fold_metrics.csv", "day2_metrics_sha256"),
+        ("configs/02_baseline_evaluation.toml", "baseline_config_sha256"),
+        ("results/02_baseline_evaluation/cv_manifest.json", "cv_manifest_sha256"),
+        ("results/02_baseline_evaluation/fold_metrics.csv", "baseline_metrics_sha256"),
     ):
         if inputs[name] != cfg[key]:
-            raise ValueError(f"Approved Day 2 input digest mismatch: {name}")
-    prior = tomllib.loads((root / "configs/day2.toml").read_text(encoding="utf-8"))
+            raise ValueError(f"Approved Phase 02 input digest mismatch: {name}")
+    prior = tomllib.loads(
+        (root / "configs/02_baseline_evaluation.toml").read_text(encoding="utf-8")
+    )
     data = (
         verified_training(root, prior["data"])
         .set_index(IDENTIFIER, verify_integrity=True)
         .sort_index()
     )
-    manifest = read_json(root / "results/day2/cv_manifest.json")
+    manifest = read_json(root / "results/02_baseline_evaluation/cv_manifest.json")
     if manifest["inputs"] != prior["data"] or manifest["settings"] != prior["cv"]:
         raise ValueError("Fold manifest has inconsistent training provenance")
     target = data[TARGET]
@@ -163,9 +174,8 @@ def run_comparison(root: Path):
             predictors=list(PREDICTORS),
             cv_manifest_sha256=cfg["cv_manifest_sha256"],
         )
-    results = root / "results/day3"
     with TemporaryDirectory(dir=root / "results") as directory:
-        stage = Path(directory)
+        stage = Path(directory) / "ledger"
         write_json(
             stage / "search_config.json",
             {
@@ -182,7 +192,7 @@ def run_comparison(root: Path):
                 "native_threads": 1,
                 "refit": False,
                 "sd_ddof": 1,
-                "ranking_rule": "docs/day3_model_selection.md#prespecified-decision-rule",
+                "ranking_rule": "docs/03_model_selection.md#prespecified-decision-rule",
             },
         )
         pd.DataFrame(rows).to_csv(stage / "candidate_results.csv", index=False, lineterminator="\n")
@@ -230,11 +240,8 @@ def run_comparison(root: Path):
         try:
             verify_references(root, fold_table)
         except ValueError:
-            diagnostic = root / "results" / f"day3-reference-failure-{uuid4().hex}"
+            diagnostic = root / "results" / f"model-selection-reference-failure-{uuid4().hex}"
             stage.rename(diagnostic)
             raise ValueError(f"Baseline replay failed; diagnostic record in {diagnostic}") from None
-        for name in [*artifacts, "execution.json"]:
-            destination = results / name
-            destination.parent.mkdir(parents=True, exist_ok=True)
-            (stage / name).replace(destination)
+        stage.rename(results)
     return selected

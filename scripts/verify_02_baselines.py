@@ -13,7 +13,7 @@ from ai4i_pm.utils import read_json, sha256_file
 
 
 def verify(root: Path) -> None:
-    output = root / "results/day2"
+    output = root / "results/02_baseline_evaluation"
     execution = read_json(output / "execution.json")
     manifest = read_json(output / "cv_manifest.json")
     target = load_training(root).set_index(IDENTIFIER)[TARGET].sort_index()
@@ -35,16 +35,17 @@ def verify(root: Path) -> None:
         isolated = Path(directory)
         for name in (
             "data/processed/train.csv",
-            "results/day1/provenance.json",
-            "results/day1/split_manifest.json",
-            "results/day1/training_partition.json",
-            "configs/day2.toml",
+            "results/01_data_exploration/provenance.json",
+            "results/01_data_exploration/split_manifest.json",
+            "results/01_data_exploration/training_partition.json",
+            "configs/02_baseline_evaluation.toml",
             "uv.lock",
+            "results/02_baseline_evaluation/cv_manifest.json",
         ):
             (isolated / name).parent.mkdir(parents=True, exist_ok=True)
             copyfile(root / name, isolated / name)
         run_baselines(isolated)
-        replica = isolated / "results/day2"
+        replica = isolated / "results/02_baseline_evaluation"
         if sha256_file(output / "execution.json") != sha256_file(replica / "execution.json"):
             raise ValueError("Execution metadata or input/output digests changed on replay")
         for name, digest in execution["artifacts_sha256"].items():

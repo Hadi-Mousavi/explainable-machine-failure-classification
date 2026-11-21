@@ -1,4 +1,4 @@
-"""Execute the thin Day 1 notebook with this exact Python environment."""
+"""Execute the training exploration notebook with this exact Python environment."""
 
 import json
 import sys
@@ -18,20 +18,20 @@ def main() -> None:
     output = root / "notebooks/01_eda_executed.ipynb"
     notebook = nbformat.read(source, as_version=4)
     with TemporaryDirectory(prefix="ai4i-kernel-") as directory:
-        spec = Path(directory) / "ai4i-day1"
+        spec = Path(directory) / "ai4i-exploration"
         spec.mkdir()
         (spec / "kernel.json").write_text(
             json.dumps(
                 {
                     "argv": [sys.executable, "-m", "ipykernel_launcher", "-f", "{connection_file}"],
-                    "display_name": "AI4I Day 1 (current environment)",
+                    "display_name": "AI4I Phase 01 (current environment)",
                     "language": "python",
                 }
             ),
             encoding="utf-8",
         )
         manager = KernelManager(
-            kernel_name="ai4i-day1",
+            kernel_name="ai4i-exploration",
             kernel_spec_manager=KernelSpecManager(kernel_dirs=[directory]),
         )
         client = NotebookClient(
