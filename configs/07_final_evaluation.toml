@@ -1,0 +1,141 @@
+status = "APPROVED_FOR_PHASE_07A"
+approval = "User-authorized staged research execution"
+execution_scope = "Training fits and one primary validation threshold-selection pass only"
+test_access_authorized = false
+evidence_commit = "75fd793a7b2b94127619921024ea495294afe67a"
+objective = "Classify Machine failure on individual synthetic AI4I observations."
+decision_history = [
+  "Phase 01 froze source identity, predictor allowlist and 6000/2000/2000 split.",
+  "Phase 02 fixed continuous-score AP and the 0.50 diagnostic.",
+  "Phase 03 provisionally chose HGB-10 on A0 and preserved RF-11.",
+  "Phase 04 found that A4 improved both families on all five paired folds.",
+  "Phase 05 examined explanations on training folds and retained provisional roles.",
+  "Phase 06 found M4 had the highest mean AP at each random seed and across the ordered blocks.",
+  "Phase 07 designates M4 as primary and M1 as descriptive reference before held-out access.",
+]
+
+[inputs]
+provenance = "results/01_data_exploration/provenance.json"
+split = "results/01_data_exploration/split_manifest.json"
+training_descriptor = "results/01_data_exploration/training_partition.json"
+training_export = "data/processed/train.csv"
+candidate_table = "results/03_model_selection/candidate_results.csv"
+provisional_selection = "results/03_model_selection/selected_configuration.json"
+ablation_design = "results/04_feature_ablation/ablation_config.json"
+resolved_models = "results/06_robustness_analysis/robustness_config.json"
+selection_evidence = "results/06_robustness_analysis/robustness_summary.json"
+transform = "src/ai4i_pm/feature_engineering.py"
+tree_pipeline = "src/ai4i_pm/model_search.py"
+score_extraction = "src/ai4i_pm/models.py"
+environment_lock = "uv.lock"
+
+[identity]
+source_csv_sha256_via_provenance = "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e"
+split_sha256 = "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310"
+training_descriptor_sha256 = "1f1eb0235931dcebb945c1a2f7dd20c4b222eca52b1812b9dc076641e01ff177"
+training_export_sha256 = "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900"
+resolved_models_sha256 = "4a6ef25c1b9af544b9794a5e268a370caea2c576efdd85de03762f3266e0ca33"
+row_key = "UDI"
+target = "Machine failure"
+positive_class = 1
+partition_rows = { train = 6000, validation = 2000, test = 2000 }
+
+[systems.primary]
+candidate = "random_forest-11"
+estimator = "sklearn.ensemble.RandomForestClassifier"
+feature_set = "A4"
+spec_pointer = "/models/M4"
+
+[systems.reference]
+candidate = "hist_gradient_boosting-10"
+estimator = "sklearn.ensemble.HistGradientBoostingClassifier"
+feature_set = "A0"
+spec_pointer = "/models/M1"
+test_metrics = ["average_precision", "precision", "recall", "f1", "f2", "tn", "fp", "fn", "tp"]
+fixed_threshold = 0.50
+validation_scoring = false
+role = "Prespecified descriptive comparison only"
+
+[features]
+A0 = ["Type", "Air temperature [K]", "Process temperature [K]", "Rotational speed [rpm]", "Torque [Nm]", "Tool wear [min]"]
+A4 = ["Type", "Air temperature [K]", "Process temperature [K]", "Rotational speed [rpm]", "Torque [Nm]", "Tool wear [min]", "temperature_difference_K", "mechanical_power_W"]
+temperature_difference_K = "process_temperature_K - air_temperature_K"
+mechanical_power_W = "torque_Nm * (rotational_speed_rpm * (2*pi/60))"
+
+[fit]
+partition = "train"
+order = "ascending numeric UDI"
+fits_per_system = 1
+native_threads = 1
+estimator_seed = 42
+pipeline = "ablation_pipeline with every parameter and ordered feature in the referenced JSON object, including JSON nulls"
+preprocessing = "Fit dense Type one-hot encoding on training only, ignore unseen categories, pass numeric columns through."
+retune = false
+resample_training = false
+calibrate_scores = false
+refit_after_validation = false
+identity_check = "Serialize each complete fitted pipeline once. Record SHA-256 before validation and verify the original bytes again before test."
+
+[metrics]
+score = "predict_proba column with classes_ == 1, finite binary64 in [0,1]"
+average_precision = "sklearn.metrics.average_precision_score on continuous scores, sum of precision weighted by recall increments"
+pr_curve = "sklearn.metrics.precision_recall_curve with pos_label=1 and drop_intermediate=false"
+decision = "score >= threshold"
+confusion = "rows actual [0,1], columns predicted [0,1], row-major TN,FP,FN,TP"
+precision = "TP/(TP+FP)"
+recall = "TP/(TP+FN)"
+f1 = "2*TP/(2*TP+FP+FN)"
+f2 = "5*TP/(5*TP+FP+4*FN)"
+zero_division = 0
+support = "TP+FN"
+prevalence = "(TP+FN)/N"
+
+[validation]
+system = "primary"
+score_passes = 1
+utility = "maximize F2"
+grid = [0.05, 0.10, 0.15, 0.20, 0.25, 0.30, 0.35, 0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95]
+tie_break = "highest threshold among exact F2 maxima, comparing integer-count ratios before rounding"
+all_zero_f2 = "override tie rule, select fallback and report failure to establish a useful validation operating point"
+fallback = 0.50
+diagnostic = 0.50
+record_per_candidate = ["threshold", "precision", "recall", "f1", "f2", "tn", "fp", "fn", "tp"]
+freeze = "Persist all 19 rows, selected row, separate diagnostic, fallback flag and reason, protocol and fitted primary SHA-256 before opening test."
+
+[test]
+score_passes_per_system = 1
+sequence = [
+  "Verify approved protocol, frozen source, memberships, partition sizes, model specifications, frozen pipeline digests and validation decision digest.",
+  "Score each frozen system once on the same held-out rows. Use the two fixed score vectors for all summaries.",
+  "Record N, positives, negatives and prevalence. Report primary AP, full PR curve and metrics/confusion at the selected threshold and separately at 0.50.",
+  "Record prespecified reference AP and fixed 0.50 metrics alongside primary results. Retain primary designation for every possible ordering.",
+  "Compute descriptive primary bootstrap intervals from the fixed test labels and scores, then seal results and record checksums.",
+]
+after_test = "Close evaluation. Report results as observed. No model, feature, threshold or analysis revisions based on test outcomes."
+integrity_failure = "Stop for review before scoring on any identity, membership, schema or class-support mismatch. Never regenerate the split. Log any interrupted test access and do not silently repeat scoring."
+
+[bootstrap]
+system = "primary"
+replicates = 2000
+seed = 42
+generator = "numpy.random.Generator(PCG64(42)), initialized once"
+resample = "Sort rows by ascending UDI. In each replicate draw n_pos positive indices then n_neg negative indices with replacement using Generator.choice from the corresponding ordered stratum. Concatenate positives then negatives."
+unit = "one observed (label, fixed score) pair"
+strata = [1, 0]
+metrics = ["average_precision", "recall_at_selected_threshold"]
+confidence = 0.95
+quantiles = [0.025, 0.975]
+quantile_method = "linear"
+point_estimates = "original unresampled test sample"
+condition_on = "observed class counts and prevalence, frozen score function and operating point"
+
+[report]
+sections = ["A. Research objective", "B. Dataset provenance and limitations", "C. Experimental methodology", "D. Baseline model comparison", "E. Hyperparameter selection", "F. Feature-ablation analysis", "G. Explainability findings", "H. Robustness analysis", "I. Prespecified final model and threshold protocol", "J. Independent held-out evaluation", "K. Uncertainty analysis", "L. Limitations and future work", "M. Reproducibility and software availability"]
+limitations = ["Synthetic label rules and engineered-feature overlap", "Repeated training selection and possible optimism", "Possible dependence and no verified equipment identity or time horizon", "Small positive support", "Bootstrap conditions on observed prevalence and omits selection and fitting uncertainty", "No evidence of calibration, industrial costs, field transfer or forecasting"]
+
+# Inventory of future outputs only. No output path is an input dependency.
+[planned_outputs]
+private_local = ["primary_pipeline.joblib", "reference_pipeline.joblib", "private/validation.csv", "private/validation_scores.npy"]
+before_validation = ["approved_protocol_record.json", "fit_manifest.json"]
+before_test = ["validation_threshold_grid.csv", "validation_decision.json"]
+after_test = ["test_metrics.json", "primary_pr_curve.csv", "primary_pr_curve.png", "bootstrap_intervals.json", "execution_manifest.json", "final_report.md"]

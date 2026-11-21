@@ -1,0 +1,37 @@
+{
+  "authority": "Explicit user instruction for this research project",
+  "model_specifications": {
+    "path": "results/06_robustness_analysis/robustness_config.json",
+    "primary": "/models/M4",
+    "reference": "/models/M1",
+    "sha256": "4a6ef25c1b9af544b9794a5e268a370caea2c576efdd85de03762f3266e0ca33"
+  },
+  "post_validation_refit_authorized": false,
+  "protocol": {
+    "path": "configs/07_final_evaluation.toml",
+    "sha256": "8e08ffcd2545b625b8e6822a4cafddbcd8c564f2772e4702e780262a7c12df90"
+  },
+  "recorded_at_utc": "2026-11-21T21:31:02.779980+00:00",
+  "research_commit": "75fd793a7b2b94127619921024ea495294afe67a",
+  "review": {
+    "path": "docs/07_final_evaluation_protocol.md",
+    "sha256": "99fdb76e98fb1b890affe41efb2839cfc145089b6fb4e79d6226d74574d664c1"
+  },
+  "scope": [
+    "Publish the protocol on private origin/main",
+    "Fit both systems once on the original training partition",
+    "Score only the frozen primary system once on the validation partition and freeze its F2 threshold"
+  ],
+  "source": {
+    "provenance": "results/01_data_exploration/provenance.json",
+    "sha256": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e"
+  },
+  "split": {
+    "path": "results/01_data_exploration/split_manifest.json",
+    "sha256": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310"
+  },
+  "stage": "07A",
+  "status": "approved for staged execution",
+  "test_access_authorized": false,
+  "test_restriction": "All held-out test observation access is prohibited pending separate supervisor review."
+}
