@@ -1,0 +1,58 @@
+{
+  "artifacts_sha256": {
+    "explanation_config.json": "f2c9d5f852f2c9c7879d33e7ed1297032a0b50d162c83f71dfadf88ff6aecf40",
+    "explanation_summary.md": "e50238b590736b3625ee78ae5812654d2739c226b27958efdfdc4f7b3d44d1fc",
+    "figures/M1_effects.png": "a2620c33136f9d8468b716977c8bd464d0ca138cbcd9a0e72214e4ca0ab7f622",
+    "figures/M1_global.png": "c0da6177cfbd2560f052571e6308d96d791d09b0f3c3fe892c8da0cafdcd80fc",
+    "figures/M1_local.png": "7dc798bab805d4695b034f30a6673da83eabcdeecfeaf8dcfb1d3b4d02d09984",
+    "figures/M4_effects.png": "f97d6615811ef52fa4d283aa3a33d0326366b15b6aafc39652ff707419af9367",
+    "figures/M4_global.png": "a9c7f0f4a0f9c26006ca0ab048a2c75679e685dd263d50cf7c7846d044ed7f32",
+    "figures/M4_local.png": "b9e24f70d26da6d87a0abf22cbd05ee15f0e580bae507016b6a19649f0e3f5f9",
+    "figures/permutation.png": "118ef52deaea6b74f6e99b77c9c6162e36fcaa4a93843ac6cd604a8c3ff30166",
+    "local_explanations.csv": "a05e46ccf61e3abda28bed547335eada0766c61042f1e9b9f71c732fe25e7dfc",
+    "permutation_fold_results.csv": "be6bf80edc9e29deaeb3dc2c247c20e857a5f68806c4c7735b9545f0557964e5",
+    "permutation_fold_summary.csv": "fe6b438d926e586fa4af56bc66a33f6daba7dfc46f55132de26bd8e69919d460",
+    "permutation_summary.csv": "1345f58e8b74c92f6409afd3f6d9abe3b7115f42f1321bf9afd6808a4563c87f",
+    "shap_metadata.json": "11080ce3a946a6f3131ff67517168d81490f3d4b99fdf65861b31bb958319d32",
+    "shap_summary.csv": "1fd2fbbd90875dabed37ea8a2c92f2ab13373b1d38a673b243958413ea4a8994",
+    "shap_values.npz": "6d8f0773be24945a39ad14015f3923aad30b2b4ce1da155173e165ec1190787d"
+  },
+  "command": "uv run --locked ai4i-pm explain",
+  "environment": {
+    "ai4i-pm": "0.1.0",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "python": "3.12.16",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "shap": "0.54.1",
+    "threadpoolctl": "3.8.0"
+  },
+  "fold_fits": 20,
+  "inputs_sha256": {
+    "configs/02_baseline_evaluation.toml": "aa0cc2a7104f8d8f875dc33b3014a7cc6b70a6011748ff8968ddfe4067328414",
+    "configs/04_feature_ablation.toml": "b62cf79dd3b02a586e8a11715cecd378aef30eef790a171d36ee8454ff9f0f60",
+    "configs/05_shap_requirements.txt": "c24f814a34e3436d3986234160b7e5eefa716fbfb743b292b0377d2c3daaa0d7",
+    "data/processed/train.csv": "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900",
+    "results/01_data_exploration/provenance.json": "30f5eb46579dc36e29993a32a97f3891321e061f9c87ab16d4dbcf6ed831bee4",
+    "results/01_data_exploration/split_manifest.json": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310",
+    "results/01_data_exploration/training_partition.json": "1f1eb0235931dcebb945c1a2f7dd20c4b222eca52b1812b9dc076641e01ff177",
+    "results/02_baseline_evaluation/cv_manifest.json": "1ddf0178f0561ec5b03f61931ba0db84a7e49a625eb7e4e9d36d137e1def1636",
+    "results/03_model_selection/candidate_results.csv": "66e079c08b8761db9e8e19ded9383b34032e3b20b360c054d7218d77734657d5",
+    "results/03_model_selection/selected_configuration.json": "e8c485fccc4b54995499b1166988d368abc4025cb89895dd32f30a830af940ae",
+    "results/04_feature_ablation/ablation_config.json": "a85d5df4644eee57ede4fbad57c5c58780820e6b180643865532fa6ce316eca1",
+    "results/04_feature_ablation/ablation_fold_metrics.csv": "dc3bbc304001e5e8153e346e996690c06bb1c346dc8a357a582e7753c0cb7850",
+    "uv.lock": "896339eb8b47eb9a96de964b87d27640dc22bdc5ab469fb0987b6e62ef45e4ea"
+  },
+  "max_phase04_ap_error": 0.0,
+  "partition": "train",
+  "permutation_measurements": 600,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "protocol_sha256": "5f1b86d0bc986b8054f48d7909adbab90e6b9bec90671b54c2636346bbff0704",
+  "shap_status": {
+    "M1": "PASS",
+    "M4": "PASS"
+  }
+}

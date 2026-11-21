@@ -1,0 +1,65 @@
+# Frozen before the first Phase 05 model fit.
+baseline_commit = "1e8d63214da6cbac603f27ca583db79a24787eee"
+partition = "train"
+rows = 6000
+positives = 203
+dataset_sha256 = "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e"
+cv_reference = "results/02_baseline_evaluation/cv_manifest.json"
+native_threads = 1
+estimator_seed = 42
+cv_seed = 42
+ap_atol = 1e-12
+limitations = "Synthetic single-operation labels, rare positives, reused selection folds, dependent measurements and deterministic derived features limit interpretation. Marginal permutation can create unusual combinations. Neither method estimates a physical causal effect."
+artifacts = ["explanation_config.json", "permutation_fold_results.csv", "permutation_fold_summary.csv", "permutation_summary.csv", "shap_metadata.json", "explanation_summary.md", "execution.json", "figures/permutation.png"]
+supported_shap_artifacts = ["shap_values.npz", "shap_summary.csv", "local_explanations.csv", "figures/{model}_global.png", "figures/{model}_effects.png", "figures/{model}_local.png"]
+
+[models]
+M1 = ["hist_gradient_boosting-10", "A0"]
+M2 = ["random_forest-11", "A0"]
+M3 = ["hist_gradient_boosting-10", "A4"]
+M4 = ["random_forest-11", "A4"]
+
+[permutation]
+repeats = 5
+seed = 51000
+seed_rule = "PCG64(seed + 100*fold + 10*zero_based_original_column + one_based_repeat), paired across models."
+metric = "Original minus permuted average precision on continuous probability of class 1, in AP units."
+perturbation = "Shuffle one original column within evaluation rows in frozen manifest order, then transform and score with the complete pipeline."
+aggregation = "Within fold: mean and sample SD over five repeats. Across folds: equal-weight mean, sample SD and range of fold means, and average within-fold SD. Repeats are diagnostic variation."
+
+[shap]
+version = "0.54.1"
+models = ["M1", "M4"]
+fold = 1
+method = "TreeExplainer"
+feature_perturbation = "tree_path_dependent"
+model_output = "raw"
+background = "No external background or sampling seed. Tree path counts from the fitted fold-1 training trees supply the reference distribution."
+sample_seed = 51005
+sample_size = 300
+sampling = "PCG64 choice without replacement from ascending evaluation UDIs, unconditional on labels; sort selected IDs for output."
+preflight_size = 8
+preflight = "First eight evaluation UDIs in manifest order. Verify class, feature names, dimensions and reconstruction before full analysis."
+positive_class = 1
+scales = "HGB raw binary decision margin in log-odds (verify sigmoid against class-1 probability); RF raw class-1 probability (select class axis by fitted classes)."
+atol = 1e-6
+aggregation = "Mean absolute attribution per transformed column across the unconditional sample. Retain separate one-hot Type columns. Local contributions remain signed."
+effects = "Plot signed attribution versus observed transformed value for the two largest mean absolute attributions per model."
+cutoff = 0.5
+cases_per_category = 2
+local_rule = "On the entire evaluation fold use probability >= cutoff. Take smallest eligible UDIs in TP, FP, FN, TN order; record empty categories."
+
+[inputs_sha256]
+"uv.lock" = "896339eb8b47eb9a96de964b87d27640dc22bdc5ab469fb0987b6e62ef45e4ea"
+"configs/05_shap_requirements.txt" = "c24f814a34e3436d3986234160b7e5eefa716fbfb743b292b0377d2c3daaa0d7"
+"configs/02_baseline_evaluation.toml" = "aa0cc2a7104f8d8f875dc33b3014a7cc6b70a6011748ff8968ddfe4067328414"
+"configs/04_feature_ablation.toml" = "b62cf79dd3b02a586e8a11715cecd378aef30eef790a171d36ee8454ff9f0f60"
+"data/processed/train.csv" = "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900"
+"results/01_data_exploration/provenance.json" = "30f5eb46579dc36e29993a32a97f3891321e061f9c87ab16d4dbcf6ed831bee4"
+"results/01_data_exploration/split_manifest.json" = "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310"
+"results/01_data_exploration/training_partition.json" = "1f1eb0235931dcebb945c1a2f7dd20c4b222eca52b1812b9dc076641e01ff177"
+"results/02_baseline_evaluation/cv_manifest.json" = "1ddf0178f0561ec5b03f61931ba0db84a7e49a625eb7e4e9d36d137e1def1636"
+"results/03_model_selection/selected_configuration.json" = "e8c485fccc4b54995499b1166988d368abc4025cb89895dd32f30a830af940ae"
+"results/03_model_selection/candidate_results.csv" = "66e079c08b8761db9e8e19ded9383b34032e3b20b360c054d7218d77734657d5"
+"results/04_feature_ablation/ablation_config.json" = "a85d5df4644eee57ede4fbad57c5c58780820e6b180643865532fa6ce316eca1"
+"results/04_feature_ablation/ablation_fold_metrics.csv" = "dc3bbc304001e5e8153e346e996690c06bb1c346dc8a357a582e7753c0cb7850"

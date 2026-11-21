@@ -38,6 +38,7 @@ def main(argv: list[str] | None = None) -> int:
     commands.add_parser("baselines", help="Evaluate fixed baselines on frozen training folds")
     commands.add_parser("compare-models", help="Compare classifiers on the saved Phase 02 folds")
     commands.add_parser("ablations", help="Evaluate fixed feature sets on the saved training folds")
+    commands.add_parser("explain", help="Explain fixed configurations on frozen training folds")
     args = parser.parse_args(argv)
     root = args.root.resolve()
     try:
@@ -69,6 +70,12 @@ def main(argv: list[str] | None = None) -> int:
 
             record = run_ablations(root)
             print(f"Completed {record['fold_evaluations']} training-fold evaluations.")
+        elif args.command == "explain":
+            from ai4i_pm.explainability import run_explanations
+
+            record = run_explanations(root)
+            print(f"Completed {record['permutation_measurements']} permutations.")
+            print(f"SHAP compatibility: {record['shap_status']}")
         else:
             result = generate_eda(root)
             print(f"EDA: {result['rows']} training rows; {len(result['figures'])} PNG figures")

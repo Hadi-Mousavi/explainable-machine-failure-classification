@@ -6,7 +6,7 @@ How well do measurements from a single operation rank the likelihood of a machin
 
 - With rare failures, how much does each model improve on a prevalence-only ranking? How does class weighting affect that ranking?
 - How much does tool wear contribute, and how do rankings change when temperature difference and mechanical power are supplied directly?
-- In planned work, how do model explanations relate to the generator, how sensitive are results to observation ordering, and what precision–recall trade-off does a frozen alert rule achieve on held-out observations?
+- How do model explanations relate to the generator? Later phases ask how sensitive results are to observation ordering and what precision–recall trade-off a frozen alert rule achieves on held-out observations.
 
 ## Dataset and methodology
 
@@ -33,8 +33,9 @@ Each engineered feature also improved AP individually. Temperature difference en
 | [02 · Baseline evaluation](research/02_baseline_evaluation/README.md) | Cross-fitted predictions, precision–recall curves, and diagnostic thresholds |
 | [03 · Model selection](research/03_model_selection/README.md) | Candidate rankings, matched class-weight comparisons, and provisional selection |
 | [04 · Feature ablation](research/04_feature_ablation/README.md) | Paired fold differences for six prespecified feature sets |
+| [05 · Explainability](research/05_explainability/README.md) | Out-of-fold permutation results for four configurations, scale-checked SHAP and 16 diagnostic case explanations |
 
-**Research status.** Explainability (05), robustness analysis (06), and final evaluation (07) are planned. Feature-set adoption, threshold selection, and held-out evaluation remain open.
+**Research status.** Torque produced the largest mean AP loss under permutation in all four configurations. Tool wear had the largest mean absolute SHAP contribution in both models examined on fold 1. Only four failures appeared in the unconditional 300-row SHAP sample. Phase 05 is available for supervisor review. Robustness analysis (06), feature-set adoption, threshold selection, and final evaluation (07) remain open. [Explanation results and limitations](docs/05_explainability.md)
 
 ## Installation and reproducibility
 
@@ -59,6 +60,14 @@ With the matching training export available, each verifier copies approved input
 uv run --locked python scripts/verify_02_baselines.py
 uv run --locked python scripts/verify_03_model_selection.py
 uv run --locked python scripts/verify_04_feature_ablation.py
+```
+
+For Phase 05, install the hash-pinned SHAP dependencies after the locked environment sync. The replay compares all 600 permutation measurements, SHAP coordinates and signed values, local decisions, and artifact digests.
+
+```sh
+uv pip install --require-hashes -r configs/05_shap_requirements.txt
+uv run --locked ai4i-pm explain
+uv run --locked python scripts/verify_05_explainability.py
 ```
 
 ## Repository architecture

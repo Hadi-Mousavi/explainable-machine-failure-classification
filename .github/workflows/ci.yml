@@ -15,6 +15,7 @@ jobs:
           enable-cache: true
       - run: uv python install
       - run: uv sync --locked
+      - run: uv pip install --require-hashes -r configs/05_shap_requirements.txt
       - run: uv run --locked ruff check .
       - run: uv run --locked ruff format --check .
       - run: uv run --locked pytest

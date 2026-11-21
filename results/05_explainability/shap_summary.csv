@@ -1,0 +1,19 @@
+model,feature,mean_abs_shap,scale
+M1,numeric__Tool wear [min],0.8273706590921335,class-1 log-odds
+M1,numeric__Torque [Nm],0.8136033752419353,class-1 log-odds
+M1,numeric__Air temperature [K],0.586619136120801,class-1 log-odds
+M1,numeric__Rotational speed [rpm],0.3445791992977914,class-1 log-odds
+M1,numeric__Process temperature [K],0.3394180323613205,class-1 log-odds
+M1,type__Type_L,0.1572628391639214,class-1 log-odds
+M1,type__Type_H,0.06934686293443922,class-1 log-odds
+M1,type__Type_M,0.036172220150901206,class-1 log-odds
+M4,numeric__Tool wear [min],0.019022102202364312,class-1 probability
+M4,numeric__Torque [Nm],0.01494734837910667,class-1 probability
+M4,numeric__Rotational speed [rpm],0.014149734419932457,class-1 probability
+M4,numeric__temperature_difference_K,0.011738389173394112,class-1 probability
+M4,numeric__mechanical_power_W,0.0083462109447706,class-1 probability
+M4,numeric__Air temperature [K],0.005407535143675543,class-1 probability
+M4,numeric__Process temperature [K],0.002194647816661663,class-1 probability
+M4,type__Type_L,0.0008949305922036532,class-1 probability
+M4,type__Type_M,0.0004881109888485598,class-1 probability
+M4,type__Type_H,0.0004447301170615132,class-1 probability
