@@ -79,6 +79,22 @@ uv run --locked ai4i-pm compare-models
 uv run --locked python scripts/verify_day3.py
 ```
 
+## Day 4 physics-informed feature ablations
+
+On the five frozen training folds, adding both process-minus-air temperature and
+mechanical power raised mean AP from 0.759824 to 0.848176 for HGB-10 and from
+0.747959 to 0.869823 for RF-11. Both models gained on every fold. Removing Tool
+wear from the original inputs reduced AP on every fold. These derived quantities
+appear in the simulator's failure rules, which limits interpretation to the
+synthetic classification task. HGB-10 remains the provisional Day 3 selection.
+[Day 4 study and figures](docs/day4_feature_ablation.md) ·
+[Fold scores and paired differences](results/day4/ablation_summary.md)
+
+```sh
+uv run --locked ai4i-pm ablations
+uv run --locked python scripts/verify_day4.py
+```
+
 ## Reproduce Day 2
 
 Use the approved Day 1 checkout with its local `data/processed/train.csv` and

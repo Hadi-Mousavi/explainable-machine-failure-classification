@@ -54,6 +54,29 @@ def frozen_splits(target, manifest):
     return splits, records
 
 
+def tree_pipeline(estimator, numeric_columns, transformer):
+    """Shared dense tree preprocessing with a fold-local Type vocabulary."""
+    return Pipeline(
+        [
+            ("allowlist", transformer),
+            (
+                "features",
+                ColumnTransformer(
+                    [
+                        (
+                            "type",
+                            OneHotEncoder(handle_unknown="ignore", sparse_output=False),
+                            ["Type"],
+                        ),
+                        ("numeric", "passthrough", list(numeric_columns)),
+                    ]
+                ),
+            ),
+            ("classifier", estimator),
+        ]
+    )
+
+
 def pipelines(settings, seed):
     models = baseline_pipelines(settings)
     for family, estimator in (
@@ -63,24 +86,8 @@ def pipelines(settings, seed):
             HistGradientBoostingClassifier(random_state=seed, early_stopping=False),
         ),
     ):
-        models[family] = Pipeline(
-            [
-                ("allowlist", FunctionTransformer(check_model_inputs)),
-                (
-                    "features",
-                    ColumnTransformer(
-                        [
-                            (
-                                "type",
-                                OneHotEncoder(handle_unknown="ignore", sparse_output=False),
-                                ["Type"],
-                            ),
-                            ("numeric", "passthrough", list(NUMERIC_FEATURES)),
-                        ]
-                    ),
-                ),
-                ("classifier", estimator),
-            ]
+        models[family] = tree_pipeline(
+            estimator, NUMERIC_FEATURES, FunctionTransformer(check_model_inputs)
         )
     return models
 

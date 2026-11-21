@@ -1,0 +1,80 @@
+# Prespecified before Day 4 fitting. All observations come from the approved training export.
+publication_base = "eca2f5e855750d8473e827de3396b711e2f55d6c"
+primary_model = "hist_gradient_boosting-10"
+secondary_model = "random_forest-11"
+reference = "A0"
+metric = "average_precision_score"
+positive_class = 1
+sd_ddof = 1
+a0_absolute_tolerance = 1e-12
+native_threads = 1
+analysis = "Give the five folds equal weight. Subtract the same model's A0 AP on the same fold. Report mean difference, individual differences and their signs. Compare directions across families. Interpret A5 as a combined sensitivity condition. Keep the provisional Day 3 selection."
+temperature_difference_K = "Process temperature [K] - Air temperature [K]"
+mechanical_power_W = "Torque [Nm] * Rotational speed [rpm] * (2*pi/60)"
+
+[features]
+A0 = [
+  "Type",
+  "Air temperature [K]",
+  "Process temperature [K]",
+  "Rotational speed [rpm]",
+  "Torque [Nm]",
+  "Tool wear [min]",
+]
+A1 = [
+  "Type",
+  "Air temperature [K]",
+  "Process temperature [K]",
+  "Rotational speed [rpm]",
+  "Torque [Nm]",
+]
+A2 = [
+  "Type",
+  "Air temperature [K]",
+  "Process temperature [K]",
+  "Rotational speed [rpm]",
+  "Torque [Nm]",
+  "Tool wear [min]",
+  "temperature_difference_K",
+]
+A3 = [
+  "Type",
+  "Air temperature [K]",
+  "Process temperature [K]",
+  "Rotational speed [rpm]",
+  "Torque [Nm]",
+  "Tool wear [min]",
+  "mechanical_power_W",
+]
+A4 = [
+  "Type",
+  "Air temperature [K]",
+  "Process temperature [K]",
+  "Rotational speed [rpm]",
+  "Torque [Nm]",
+  "Tool wear [min]",
+  "temperature_difference_K",
+  "mechanical_power_W",
+]
+A5 = [
+  "Type",
+  "Air temperature [K]",
+  "Process temperature [K]",
+  "Rotational speed [rpm]",
+  "Torque [Nm]",
+  "temperature_difference_K",
+  "mechanical_power_W",
+]
+
+# Only these prior artifacts and the training export may be read by the experiment.
+[inputs_sha256]
+"configs/day2.toml" = "e5eac81a6ff9e1d81f13dbad99f2d3f43161253e61f3d785bd152ed421d06d3c"
+"uv.lock" = "896339eb8b47eb9a96de964b87d27640dc22bdc5ab469fb0987b6e62ef45e4ea"
+"data/processed/train.csv" = "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900"
+"results/day1/provenance.json" = "30f5eb46579dc36e29993a32a97f3891321e061f9c87ab16d4dbcf6ed831bee4"
+"results/day1/split_manifest.json" = "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310"
+"results/day1/training_partition.json" = "1f1eb0235931dcebb945c1a2f7dd20c4b222eca52b1812b9dc076641e01ff177"
+"results/day2/cv_manifest.json" = "1ddf0178f0561ec5b03f61931ba0db84a7e49a625eb7e4e9d36d137e1def1636"
+"results/day3/selected_configuration.json" = "e8c485fccc4b54995499b1166988d368abc4025cb89895dd32f30a830af940ae"
+"results/day3/candidate_results.csv" = "66e079c08b8761db9e8e19ded9383b34032e3b20b360c054d7218d77734657d5"
+"results/day3/candidate_fold_metrics.csv" = "15ec77e8c7ca038d6715e655cb4bf8b22f0f97b5d0b9b4b911006f121f2ac6ec"

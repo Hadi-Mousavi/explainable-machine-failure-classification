@@ -35,6 +35,7 @@ def main(argv: list[str] | None = None) -> int:
     commands.add_parser("eda", help="Generate training-only figures and observations")
     commands.add_parser("baselines", help="Evaluate fixed baselines on frozen training folds")
     commands.add_parser("compare-models", help="Compare classifiers on the saved Day 2 folds")
+    commands.add_parser("ablations", help="Evaluate fixed feature sets on the saved training folds")
     args = parser.parse_args(argv)
     root = args.root.resolve()
     try:
@@ -61,6 +62,11 @@ def main(argv: list[str] | None = None) -> int:
             from ai4i_pm.comparison import run_comparison
 
             print(json.dumps(run_comparison(root), indent=2))
+        elif args.command == "ablations":
+            from ai4i_pm.ablations import run_ablations
+
+            record = run_ablations(root)
+            print(f"Completed {record['fold_evaluations']} training-fold evaluations.")
         else:
             result = generate_eda(root)
             print(f"EDA: {result['rows']} training rows; {len(result['figures'])} PNG figures")
