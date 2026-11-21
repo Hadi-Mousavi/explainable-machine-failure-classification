@@ -6,7 +6,7 @@ How well do measurements from a single operation rank the likelihood of a machin
 
 - With rare failures, how much does each model improve on a prevalence-only ranking? How does class weighting affect that ranking?
 - How much does tool wear contribute, and how do rankings change when temperature difference and mechanical power are supplied directly?
-- How do model explanations relate to the generator? Later phases ask how sensitive results are to observation ordering and what precision–recall trade-off a frozen alert rule achieves on held-out observations.
+- How do model explanations relate to the generator, and how sensitive are the model and feature comparisons to alternative training partitions and UDI order? The precision–recall trade-off of a frozen alert rule on held-out observations remains open.
 
 ## Dataset and methodology
 
@@ -34,8 +34,11 @@ Each engineered feature also improved AP individually. Temperature difference en
 | [03 · Model selection](research/03_model_selection/README.md) | Candidate rankings, matched class-weight comparisons, and provisional selection |
 | [04 · Feature ablation](research/04_feature_ablation/README.md) | Paired fold differences for six prespecified feature sets |
 | [05 · Explainability](research/05_explainability/README.md) | Out-of-fold permutation results for four configurations, scale-checked SHAP and 16 diagnostic case explanations |
+| [06 · Robustness analysis](research/06_robustness_analysis/README.md) | Two alternative CV assignments, the frozen seed-42 reference, and three expanding UDI-ordered evaluations |
 
-**Research status.** Torque produced the largest mean AP loss under permutation in all four configurations. Tool wear had the largest mean absolute SHAP contribution in both models examined on fold 1. Only four failures appeared in the unconditional 300-row SHAP sample. Phase 05 is available for supervisor review. Robustness analysis (06), feature-set adoption, threshold selection, and final evaluation (07) remain open. [Explanation results and limitations](docs/05_explainability.md)
+Torque produced the largest mean AP loss under permutation in all four configurations. Tool wear had the largest mean absolute SHAP contribution in both models examined on fold 1. Only four failures appeared in the unconditional 300-row SHAP sample. [Explanation results and limitations](docs/05_explainability.md)
+
+**Research status.** Phase 06 robustness analysis is approved. Mean AP ranks agreed across three CV seeds. Under UDI ordering, RF overtook HGB on the original features (.568382 versus .522726). With both engineered features, ordered means were .738921 for RF and .710596 for HGB. Ordered evaluation prevalence ranged from 1.83% to 8.17%. UDI has no verified timestamp or equipment identity. Model adoption, thresholds and held-out evaluation remain open. [Robustness results and limitations](docs/06_robustness_analysis.md)
 
 ## Installation and reproducibility
 
@@ -68,6 +71,13 @@ For Phase 05, install the hash-pinned SHAP dependencies after the locked environ
 uv pip install --require-hashes -r configs/05_shap_requirements.txt
 uv run --locked ai4i-pm explain
 uv run --locked python scripts/verify_05_explainability.py
+```
+
+With the same approved training export, run the robustness analysis and its independent 52-fit replay.
+
+```sh
+uv run --locked ai4i-pm robustness
+uv run --locked python scripts/verify_06_robustness.py
 ```
 
 ## Repository architecture

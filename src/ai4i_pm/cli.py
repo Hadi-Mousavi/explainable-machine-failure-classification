@@ -39,6 +39,7 @@ def main(argv: list[str] | None = None) -> int:
     commands.add_parser("compare-models", help="Compare classifiers on the saved Phase 02 folds")
     commands.add_parser("ablations", help="Evaluate fixed feature sets on the saved training folds")
     commands.add_parser("explain", help="Explain fixed configurations on frozen training folds")
+    commands.add_parser("robustness", help="Evaluate fixed models on alternative training splits")
     args = parser.parse_args(argv)
     root = args.root.resolve()
     try:
@@ -70,6 +71,11 @@ def main(argv: list[str] | None = None) -> int:
 
             record = run_ablations(root)
             print(f"Completed {record['fold_evaluations']} training-fold evaluations.")
+        elif args.command == "robustness":
+            from ai4i_pm.robustness import run_robustness
+
+            record = run_robustness(root)
+            print(f"Verified robustness results for {record['new_fits']} training-partition fits.")
         elif args.command == "explain":
             from ai4i_pm.explainability import run_explanations
 

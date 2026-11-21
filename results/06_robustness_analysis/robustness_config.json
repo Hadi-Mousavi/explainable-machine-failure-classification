@@ -1,0 +1,230 @@
+{
+  "models": {
+    "M1": {
+      "candidate": "hist_gradient_boosting-10",
+      "condition": "A0",
+      "features": [
+        "Type",
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]"
+      ],
+      "parameters": {
+        "categorical_features": "from_dtype",
+        "class_weight": "balanced",
+        "early_stopping": false,
+        "interaction_cst": null,
+        "l2_regularization": 1.0,
+        "learning_rate": 0.1,
+        "loss": "log_loss",
+        "max_bins": 255,
+        "max_depth": null,
+        "max_features": 1.0,
+        "max_iter": 100,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "monotonic_cst": null,
+        "n_iter_no_change": 10,
+        "random_state": 42,
+        "scoring": "loss",
+        "tol": 1e-07,
+        "validation_fraction": 0.1,
+        "verbose": 0,
+        "warm_start": false
+      }
+    },
+    "M2": {
+      "candidate": "random_forest-11",
+      "condition": "A0",
+      "features": [
+        "Type",
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]"
+      ],
+      "parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": null,
+        "criterion": "gini",
+        "max_depth": 16,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 1,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      }
+    },
+    "M3": {
+      "candidate": "hist_gradient_boosting-10",
+      "condition": "A4",
+      "features": [
+        "Type",
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]",
+        "temperature_difference_K",
+        "mechanical_power_W"
+      ],
+      "parameters": {
+        "categorical_features": "from_dtype",
+        "class_weight": "balanced",
+        "early_stopping": false,
+        "interaction_cst": null,
+        "l2_regularization": 1.0,
+        "learning_rate": 0.1,
+        "loss": "log_loss",
+        "max_bins": 255,
+        "max_depth": null,
+        "max_features": 1.0,
+        "max_iter": 100,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "monotonic_cst": null,
+        "n_iter_no_change": 10,
+        "random_state": 42,
+        "scoring": "loss",
+        "tol": 1e-07,
+        "validation_fraction": 0.1,
+        "verbose": 0,
+        "warm_start": false
+      }
+    },
+    "M4": {
+      "candidate": "random_forest-11",
+      "condition": "A4",
+      "features": [
+        "Type",
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]",
+        "temperature_difference_K",
+        "mechanical_power_W"
+      ],
+      "parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": null,
+        "criterion": "gini",
+        "max_depth": 16,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 1,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      }
+    }
+  },
+  "protocol": {
+    "aggregation": "Equal-weight arithmetic mean per model and seed or ordered strategy; sample SD (ddof=1) and min/max across folds or blocks. Range of seed means includes 42. Compare ordered means with the equal-weight mean of all three seed means. Rank unrounded means descending, equal scores share rank. Pair A4 minus A0 within each family and identical memberships.",
+    "baseline_commit": "4debe0c69bc020206aa2f0e10591f6a1e7ce6048",
+    "estimator_seed": 42,
+    "execution": "Serial CPU fits, RF n_jobs=1. Measure elapsed fit plus scoring seconds per new evaluation. Historical reference fit times unavailable.",
+    "inputs_sha256": {
+      "configs/02_baseline_evaluation.toml": "aa0cc2a7104f8d8f875dc33b3014a7cc6b70a6011748ff8968ddfe4067328414",
+      "configs/04_feature_ablation.toml": "b62cf79dd3b02a586e8a11715cecd378aef30eef790a171d36ee8454ff9f0f60",
+      "data/processed/train.csv": "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900",
+      "results/01_data_exploration/provenance.json": "30f5eb46579dc36e29993a32a97f3891321e061f9c87ab16d4dbcf6ed831bee4",
+      "results/01_data_exploration/split_manifest.json": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310",
+      "results/01_data_exploration/training_partition.json": "1f1eb0235931dcebb945c1a2f7dd20c4b222eca52b1812b9dc076641e01ff177",
+      "results/02_baseline_evaluation/cv_manifest.json": "1ddf0178f0561ec5b03f61931ba0db84a7e49a625eb7e4e9d36d137e1def1636",
+      "results/03_model_selection/candidate_results.csv": "66e079c08b8761db9e8e19ded9383b34032e3b20b360c054d7218d77734657d5",
+      "results/03_model_selection/selected_configuration.json": "e8c485fccc4b54995499b1166988d368abc4025cb89895dd32f30a830af940ae",
+      "results/04_feature_ablation/ablation_config.json": "a85d5df4644eee57ede4fbad57c5c58780820e6b180643865532fa6ce316eca1",
+      "results/04_feature_ablation/ablation_fold_metrics.csv": "dc3bbc304001e5e8153e346e996690c06bb1c346dc8a357a582e7753c0cb7850",
+      "uv.lock": "896339eb8b47eb9a96de964b87d27640dc22bdc5ab469fb0987b6e62ef45e4ea"
+    },
+    "limitations": "Overlapping resamples, selection on the original folds and synthetic label rules limit inference. UDI supplies neither a verified timestamp nor equipment identity. Fit size, prevalence and evaluated rows differ between strategies. No independence, significance, causal, forecasting or field-transfer claims.",
+    "models": {
+      "M1": [
+        "hist_gradient_boosting-10",
+        "A0"
+      ],
+      "M2": [
+        "random_forest-11",
+        "A0"
+      ],
+      "M3": [
+        "hist_gradient_boosting-10",
+        "A4"
+      ],
+      "M4": [
+        "random_forest-11",
+        "A4"
+      ]
+    },
+    "native_threads": 1,
+    "ordered": {
+      "diagnostics": "Record actual positive and negative counts in every fit and evaluation slice. Do not stratify, skip or redraw an evaluation block.",
+      "eval_ends": [
+        3600,
+        4800,
+        6000
+      ],
+      "fit_ends": [
+        2400,
+        3600,
+        4800
+      ],
+      "ordering": "Ascending numeric UDI, zero-based half-open row slices. Fit [0,fit_end), evaluate [fit_end,eval_end). Retain observed order and class composition."
+    },
+    "parameters": "Use every classifier_parameters entry and the ordered A0/A4 columns from the hash-pinned Phase 04 design. Cross-check both models against the Phase 03 specifications.",
+    "partition": "train",
+    "positives": 203,
+    "primary_metric": "Average precision from continuous class-1 scores; constant-score baseline equals evaluation prevalence.",
+    "random_cv": {
+      "eval_rows": 1200,
+      "fit_rows": 4800,
+      "folds": 5,
+      "membership_sha256": {
+        "123": "ec70e303833b2f2e784511da5e98dd62372179e3c2d23509dcf92dc5f6a63842",
+        "7": "ba7ae69ab3047b429c1660dd520ca15edc66d0a417de2ac43bb8014813ab1a9a"
+      },
+      "ordering": "Ascending numeric UDI; shuffled StratifiedKFold, shared across all configurations. Fit on complement of each saved evaluation UDI list.",
+      "reference_seed": 42,
+      "seeds": [
+        7,
+        123
+      ],
+      "shuffle": true,
+      "sorted_eval_positives": [
+        40,
+        40,
+        41,
+        41,
+        41
+      ]
+    },
+    "replay_atol": 1e-12,
+    "rows": 6000,
+    "source_sha256": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e",
+    "undefined": "Mark AP undefined for zero evaluation positives or a single-class fit. Retain counts, memberships and reason. An all-positive evaluation has AP 1. With any undefined AP, leave the affected aggregate and comparisons undefined."
+  },
+  "protocol_sha256": "a50f7fbda76b3eb32d87dc6cae9824c13be74ade02c19aadd18093e672e23d6b"
+}
