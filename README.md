@@ -38,7 +38,9 @@ Each engineered feature also improved AP individually. Temperature difference en
 
 Torque produced the largest mean AP loss under permutation in all four configurations. Tool wear had the largest mean absolute SHAP contribution in both models examined on fold 1. Only four failures appeared in the unconditional 300-row SHAP sample. [Explanation results and limitations](docs/05_explainability.md)
 
-**Research status.** Phase 06 robustness analysis is approved. Mean AP ranks agreed across three CV seeds. Under UDI ordering, RF overtook HGB on the original features (.568382 versus .522726). With both engineered features, ordered means were .738921 for RF and .710596 for HGB. Ordered evaluation prevalence ranged from 1.83% to 8.17%. UDI has no verified timestamp or equipment identity. Model adoption, thresholds and held-out evaluation remain open. [Robustness results and limitations](docs/06_robustness_analysis.md)
+Mean AP ranks agreed across three training CV seeds. Under UDI ordering, RF overtook HGB on the original features (.568382 versus .522726). With both engineered features, ordered means were .738921 for RF and .710596 for HGB. Ordered evaluation prevalence ranged from 1.83% to 8.17%. UDI has no verified timestamp or equipment identity. [Robustness results and limitations](docs/06_robustness_analysis.md)
+
+**Phase 07A freeze.** The primary system is RF-11 with A4. Its frozen cutoff of 0.15 was the unique F2 maximum across 19 approved validation thresholds. It detected 61 of 68 failures among 2,000 validation observations, with 32 false positives and F2 of 61/73. HGB-10 with A0 is the descriptive reference at 0.50. The fit manifest identifies both local fitted pipelines by SHA-256. [Approved protocol](docs/07_final_evaluation_protocol.md) · [Fit manifest](results/07_final_evaluation/fit_manifest.json) · [Validation decision](results/07_final_evaluation/validation_decision.json) · [Threshold grid](results/07_final_evaluation/validation_threshold_grid.csv)
 
 ## Installation and reproducibility
 

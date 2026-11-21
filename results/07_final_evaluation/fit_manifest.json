@@ -1,0 +1,160 @@
+{
+  "completed_at_utc": "2026-11-21T21:39:23+00:00",
+  "estimator_seed": 42,
+  "inputs": {
+    "partition_rows": {
+      "test": 2000,
+      "train": 6000,
+      "validation": 2000
+    },
+    "positive_class": 1,
+    "resolved_models_sha256": "4a6ef25c1b9af544b9794a5e268a370caea2c576efdd85de03762f3266e0ca33",
+    "row_key": "UDI",
+    "source_csv_sha256_via_provenance": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e",
+    "split_sha256": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310",
+    "target": "Machine failure",
+    "training_descriptor_sha256": "1f1eb0235931dcebb945c1a2f7dd20c4b222eca52b1812b9dc076641e01ff177",
+    "training_export_sha256": "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900"
+  },
+  "lock_sha256": "896339eb8b47eb9a96de964b87d27640dc22bdc5ab469fb0987b6e62ef45e4ea",
+  "native_threads": 1,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "positives": 203,
+  "protocol_sha256": "8e08ffcd2545b625b8e6822a4cafddbcd8c564f2772e4702e780262a7c12df90",
+  "repository_commit": "7c2232abf1018e45cf9b4d7ff3d080fb069a0e38",
+  "rows": 6000,
+  "started": {
+    "started_at_utc": "2026-11-21T21:39:19+00:00"
+  },
+  "systems": {
+    "primary": {
+      "candidate": "random_forest-11",
+      "classes": [
+        0,
+        1
+      ],
+      "condition": "A4",
+      "estimator": "sklearn.ensemble.RandomForestClassifier",
+      "features": [
+        "Type",
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]",
+        "temperature_difference_K",
+        "mechanical_power_W"
+      ],
+      "file": "primary_pipeline.joblib",
+      "input_features": [
+        "Type",
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]"
+      ],
+      "parameters": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": null,
+        "criterion": "gini",
+        "max_depth": 16,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 1,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 300,
+        "n_jobs": 1,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "positive_column": 1,
+      "preprocessing": "Fit dense Type one-hot encoding on training only, ignore unseen categories, pass numeric columns through.",
+      "sha256": "b75e43e3095650adff6659e9f50f3e5d7646ed84760baec1bb45c4a4ec7daefb",
+      "type_categories": [
+        "H",
+        "L",
+        "M"
+      ]
+    },
+    "reference": {
+      "candidate": "hist_gradient_boosting-10",
+      "classes": [
+        0,
+        1
+      ],
+      "condition": "A0",
+      "estimator": "sklearn.ensemble.HistGradientBoostingClassifier",
+      "features": [
+        "Type",
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]"
+      ],
+      "file": "reference_pipeline.joblib",
+      "input_features": [
+        "Type",
+        "Air temperature [K]",
+        "Process temperature [K]",
+        "Rotational speed [rpm]",
+        "Torque [Nm]",
+        "Tool wear [min]"
+      ],
+      "parameters": {
+        "categorical_features": "from_dtype",
+        "class_weight": "balanced",
+        "early_stopping": false,
+        "interaction_cst": null,
+        "l2_regularization": 1.0,
+        "learning_rate": 0.1,
+        "loss": "log_loss",
+        "max_bins": 255,
+        "max_depth": null,
+        "max_features": 1.0,
+        "max_iter": 100,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 20,
+        "monotonic_cst": null,
+        "n_iter_no_change": 10,
+        "random_state": 42,
+        "scoring": "loss",
+        "tol": 1e-07,
+        "validation_fraction": 0.1,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "positive_column": 1,
+      "preprocessing": "Fit dense Type one-hot encoding on training only, ignore unseen categories, pass numeric columns through.",
+      "sha256": "d3f1ee61633ca85778bf592ec9868a1168b93d956980b0141ab429a6c462022e",
+      "type_categories": [
+        "H",
+        "L",
+        "M"
+      ]
+    }
+  },
+  "training_udi_sha256": "16c08b251431258b8cfeeb233ab5be7941d06968f018d5117868d07c8bc2c957",
+  "versions": {
+    "ai4i-pm": "0.1.0",
+    "joblib": "1.6.0",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "python": "3.12.16",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "threadpoolctl": "3.8.0"
+  },
+  "workflow_sha256": {
+    "final_validation.py": "5f16fcbab4ab32872b21ae53327a54e25704f85da11a898d2381ae8c867e4a85",
+    "validation_threshold.py": "78239937edbeef21363efc7e452875b93c2e5adb892d05e216ab36853dc03e67"
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "completed_at_utc": "2026-11-21T21:39:43+00:00",
+  "diagnostic_050": {
+    "f1": 0.8173913043478261,
+    "f2": 0.7366771159874608,
+    "fn": 21,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 0.6911764705882353,
+    "threshold": 0.5,
+    "tn": 1932,
+    "tp": 47
+  },
+  "fallback": false,
+  "fit_manifest_sha256": "f2fee00e6ed240e69c7c0203f0e24341ef17f64a44fc06b4b42edd7199b14fd0",
+  "grid_sha256": "99cb423d921bbde22ec36617aaa2a364ac772f6cd8c4f47b16940a000c1397e6",
+  "maximizing_thresholds": [
+    0.15
+  ],
+  "negatives": 1932,
+  "positives": 68,
+  "prevalence": 0.034,
+  "primary_model_sha256": "b75e43e3095650adff6659e9f50f3e5d7646ed84760baec1bb45c4a4ec7daefb",
+  "protocol_sha256": "8e08ffcd2545b625b8e6822a4cafddbcd8c564f2772e4702e780262a7c12df90",
+  "reason": "Unique maximum F2 on the approved grid",
+  "rows": 2000,
+  "score_encoding": "Ascending numeric UDI; little-endian IEEE binary64, C order",
+  "score_vector_sha256": "a381f70eac40b4e93e544239f018bdd0e235ccfa94d2c90b8efd1264299fe8cd",
+  "scores_file_sha256": "4a38385fae7ac955cc6fc8b3cb4549861befcd99c6266628e4583d72b25be000",
+  "selected": {
+    "f1": 0.7577639751552795,
+    "f2": 0.8356164383561644,
+    "fn": 7,
+    "fp": 32,
+    "precision": 0.6559139784946236,
+    "recall": 0.8970588235294118,
+    "threshold": 0.15,
+    "tn": 1900,
+    "tp": 61
+  },
+  "selected_f2_exact": "61/73",
+  "split_sha256": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310",
+  "validation_export_sha256": "de41c51b52bb06a8bd03b0a1257b8770d1549c081d2e267eee1524f7f687d938",
+  "validation_udi_sha256": "9709d03fae79079a602b635cec0b89ed36535d8e069cb60024b651d7dd67be79",
+  "versions": {
+    "ai4i-pm": "0.1.0",
+    "joblib": "1.6.0",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "python": "3.12.16",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "threadpoolctl": "3.8.0"
+  }
+}

@@ -25,4 +25,5 @@ Thumbs.db
 /results/**/*.pkl
 /results/**/*.joblib
 /results/**/*.parquet
+/results/07_final_evaluation/private/
 /notebooks/*_executed.ipynb
