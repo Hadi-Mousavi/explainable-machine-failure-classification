@@ -1,0 +1,4 @@
+# Keep checksum-linked text manifests stable across Windows and Linux checkouts.
+* text=auto eol=lf
+*.png binary
+*.zip binary

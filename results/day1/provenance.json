@@ -1,0 +1,39 @@
+{
+  "acquired_at_utc": "2026-11-21T07:26:27+00:00",
+  "archive_file": "data/raw/uci_ai4i_2020.zip",
+  "archive_members": [
+    "ai4i2020.csv"
+  ],
+  "archive_sha256": "f601f14294bcf190f9d720676b7f0aea46a26cde9ab8ebc7b4f8174d9d26b252",
+  "attribution": "AI4I 2020 Predictive Maintenance Dataset (2020), UCI Repository",
+  "columns": [
+    "UDI",
+    "Product ID",
+    "Type",
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]",
+    "Machine failure",
+    "TWF",
+    "HDF",
+    "PWF",
+    "OSF",
+    "RNF"
+  ],
+  "csv_file": "data/raw/ai4i2020.csv",
+  "csv_sha256": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e",
+  "dataset": "AI4I 2020 Predictive Maintenance Dataset",
+  "doi": "https://doi.org/10.24432/C5HS5C",
+  "download_url": "https://archive.ics.uci.edu/static/public/601/ai4i%2B2020%2Bpredictive%2Bmaintenance%2Bdataset.zip",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "method": "official_https",
+  "raw_bytes_modified": false,
+  "rows": 10000,
+  "source_authenticity": "downloaded from official UCI HTTPS",
+  "source_url": "https://archive.ics.uci.edu/dataset/601/ai4i+2020+predictive+maintenance+dataset",
+  "synthetic": true,
+  "uci_id": 601
+}

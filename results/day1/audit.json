@@ -1,0 +1,129 @@
+{
+  "class_counts": {
+    "0": 9661,
+    "1": 339
+  },
+  "column_count": 14,
+  "columns": [
+    "UDI",
+    "Product ID",
+    "Type",
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]",
+    "Machine failure",
+    "TWF",
+    "HDF",
+    "PWF",
+    "OSF",
+    "RNF"
+  ],
+  "conservative_checks": "Positive Kelvin temperatures, speed, torque; nonnegative tool wear; finite numeric values; L/M/H Type; unique positive integer UDI; Product ID pattern [LMH]\\d{5}; binary labels. No data-driven full-source outlier thresholds.",
+  "dataset_sha256": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e",
+  "dtypes": {
+    "Air temperature [K]": "float64",
+    "HDF": "int64",
+    "Machine failure": "int64",
+    "OSF": "int64",
+    "PWF": "int64",
+    "Process temperature [K]": "float64",
+    "Product ID": "object",
+    "RNF": "int64",
+    "Rotational speed [rpm]": "int64",
+    "TWF": "int64",
+    "Tool wear [min]": "int64",
+    "Torque [Nm]": "float64",
+    "Type": "object",
+    "UDI": "int64"
+  },
+  "duplicates": {
+    "complete_rows": 0,
+    "definition": "number of repeated rows after the first occurrence",
+    "predictor_combinations": 0,
+    "predictor_plus_target": 0
+  },
+  "environment": {
+    "ai4i-pm": "0.1.0",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "python": "3.12.16",
+    "scikit-learn": "1.9.1"
+  },
+  "identifier_unique": {
+    "Product ID": true,
+    "UDI": true
+  },
+  "invalid_target_count": 0,
+  "leakage_risks": {
+    "allowed_predictors": [
+      "Type",
+      "Air temperature [K]",
+      "Process temperature [K]",
+      "Rotational speed [rpm]",
+      "Torque [Nm]",
+      "Tool wear [min]"
+    ],
+    "failure_mode_relationships_examined": false,
+    "no_cleaning_performed": true,
+    "prohibited_predictors": [
+      "UDI",
+      "Product ID",
+      "TWF",
+      "HDF",
+      "PWF",
+      "OSF",
+      "RNF"
+    ]
+  },
+  "missing_by_column": {
+    "Air temperature [K]": 0,
+    "HDF": 0,
+    "Machine failure": 0,
+    "OSF": 0,
+    "PWF": 0,
+    "Process temperature [K]": 0,
+    "Product ID": 0,
+    "RNF": 0,
+    "Rotational speed [rpm]": 0,
+    "TWF": 0,
+    "Tool wear [min]": 0,
+    "Torque [Nm]": 0,
+    "Type": 0,
+    "UDI": 0
+  },
+  "missing_total": 0,
+  "negative_to_positive_ratio": 28.49852507374631,
+  "numeric_ranges": {
+    "Air temperature [K]": {
+      "max": 304.5,
+      "min": 295.3
+    },
+    "Process temperature [K]": {
+      "max": 313.8,
+      "min": 305.7
+    },
+    "Rotational speed [rpm]": {
+      "max": 2886.0,
+      "min": 1168.0
+    },
+    "Tool wear [min]": {
+      "max": 253.0,
+      "min": 0.0
+    },
+    "Torque [Nm]": {
+      "max": 76.6,
+      "min": 3.8
+    }
+  },
+  "positive_fraction": 0.0339,
+  "rows": 10000,
+  "scope": "full original dataset: integrity only, not scientific EDA",
+  "type_counts": {
+    "H": 1003,
+    "L": 6000,
+    "M": 2997
+  },
+  "unexpected_issues": []
+}

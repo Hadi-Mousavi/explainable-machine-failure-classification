@@ -1,0 +1,5 @@
+# Frozen primary protocol. Changed settings require split --override --reason.
+[split]
+seed = 42
+test_fraction = 0.20
+validation_fraction_of_remainder = 0.25

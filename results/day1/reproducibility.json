@@ -1,0 +1,161 @@
+{
+  "environment": {
+    "ai4i-pm": "0.1.0",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "python": "3.12.16",
+    "scikit-learn": "1.9.1"
+  },
+  "figures": {
+    "01_train_class_distribution.png": {
+      "dpi": [
+        299.9994,
+        299.9994
+      ],
+      "height": 1324,
+      "width": 2074
+    },
+    "02_train_type_distribution.png": {
+      "dpi": [
+        299.9994,
+        299.9994
+      ],
+      "height": 1324,
+      "width": 2074
+    },
+    "03_train_numeric_distributions.png": {
+      "dpi": [
+        299.9994,
+        299.9994
+      ],
+      "height": 2194,
+      "width": 3634
+    },
+    "04_train_missingness.png": {
+      "dpi": [
+        299.9994,
+        299.9994
+      ],
+      "height": 1384,
+      "width": 2434
+    },
+    "05_train_numeric_correlations.png": {
+      "dpi": [
+        299.9994,
+        299.9994
+      ],
+      "height": 2134,
+      "width": 2462
+    },
+    "06_train_feature_relationships.png": {
+      "dpi": [
+        299.9994,
+        299.9994
+      ],
+      "height": 1414,
+      "width": 3334
+    },
+    "07_train_features_by_target.png": {
+      "dpi": [
+        299.9994,
+        299.9994
+      ],
+      "height": 1414,
+      "width": 3634
+    }
+  },
+  "identical_repeat_artifacts": 17,
+  "models_trained": false,
+  "notebook": {
+    "code_cells": 3,
+    "error_outputs": 0,
+    "status": "PASS"
+  },
+  "partition_invariants": {
+    "all_assigned_once": true,
+    "complete": true,
+    "partitions": {
+      "test": {
+        "class_count_deviation_from_proportional": {
+          "0": 0.20000000000004547,
+          "1": 0.20000000000000284
+        },
+        "class_counts": {
+          "0": 1932,
+          "1": 68
+        },
+        "positive_fraction": 0.034,
+        "size": 2000
+      },
+      "train": {
+        "class_count_deviation_from_proportional": {
+          "0": 0.3999999999996362,
+          "1": 0.4000000000000057
+        },
+        "class_counts": {
+          "0": 5797,
+          "1": 203
+        },
+        "positive_fraction": 0.03383333333333333,
+        "size": 6000
+      },
+      "validation": {
+        "class_count_deviation_from_proportional": {
+          "0": 0.20000000000004547,
+          "1": 0.20000000000000284
+        },
+        "class_counts": {
+          "0": 1932,
+          "1": 68
+        },
+        "positive_fraction": 0.034,
+        "size": 2000
+      }
+    },
+    "stratification_checked": true,
+    "stratification_rounding_tolerance_rows": 2,
+    "zero_overlap": true
+  },
+  "real_dataset_row_permutation_same_membership": true,
+  "scope": "Local runtime only; CI runner and cross-platform pixel identity not tested",
+  "sha256_after": {
+    "data/processed/train.csv": "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900",
+    "data/raw/ai4i2020.csv": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e",
+    "data/raw/uci_ai4i_2020.zip": "f601f14294bcf190f9d720676b7f0aea46a26cde9ab8ebc7b4f8174d9d26b252",
+    "results/day1/audit.json": "1e144ae48511f1093b4785842222ab4304480ac519ad298b54ae4ba5e77543e7",
+    "results/day1/audit.md": "788ceabacaeb46a410a13a826c8cca3ea56a350b710d12d53b533050782edad6",
+    "results/day1/eda.md": "9cce9f4c46d1f8382e9055bdebbe41cf5bff0d4cf26798fb1786d9d304018358",
+    "results/day1/eda_summary.json": "67df87a3d6deb777a2cda58dcf0dbde696c50ac973ff50018dbd2cbefc345e84",
+    "results/day1/figures/01_train_class_distribution.png": "aae367a004816f0b36e97466ceebe31a38a41f56d9151a8b23ee62a7b4dd42e4",
+    "results/day1/figures/02_train_type_distribution.png": "864f802b5d4cde52e334d3f5726e8b867bd496e434c821744eb2283a68819079",
+    "results/day1/figures/03_train_numeric_distributions.png": "b8ce61a03bff5ed8e9be7b6ec4aab7b4fd30aaca8f7d87690fec377aeeefcb69",
+    "results/day1/figures/04_train_missingness.png": "90842de68f981f8895b7e8d30eb8f91341c918e6de8f16e0e96a2498c6415ef6",
+    "results/day1/figures/05_train_numeric_correlations.png": "3a1d3438757898d4ea4c0c3e3876ab286bf44797ba28d9462ef11bb06c1a61a8",
+    "results/day1/figures/06_train_feature_relationships.png": "c600b0868157dbb11c17efca975e29fef8ecd46aba2a2801dd973697e65b08c3",
+    "results/day1/figures/07_train_features_by_target.png": "4d8d5d956667eb4ac0b95baaf5b1a4066502ecef9519e805a0839ba3602585da",
+    "results/day1/provenance.json": "30f5eb46579dc36e29993a32a97f3891321e061f9c87ab16d4dbcf6ed831bee4",
+    "results/day1/split_manifest.json": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310",
+    "results/day1/training_partition.json": "1f1eb0235931dcebb945c1a2f7dd20c4b222eca52b1812b9dc076641e01ff177"
+  },
+  "sha256_before": {
+    "data/processed/train.csv": "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900",
+    "data/raw/ai4i2020.csv": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e",
+    "data/raw/uci_ai4i_2020.zip": "f601f14294bcf190f9d720676b7f0aea46a26cde9ab8ebc7b4f8174d9d26b252",
+    "results/day1/audit.json": "1e144ae48511f1093b4785842222ab4304480ac519ad298b54ae4ba5e77543e7",
+    "results/day1/audit.md": "788ceabacaeb46a410a13a826c8cca3ea56a350b710d12d53b533050782edad6",
+    "results/day1/eda.md": "9cce9f4c46d1f8382e9055bdebbe41cf5bff0d4cf26798fb1786d9d304018358",
+    "results/day1/eda_summary.json": "67df87a3d6deb777a2cda58dcf0dbde696c50ac973ff50018dbd2cbefc345e84",
+    "results/day1/figures/01_train_class_distribution.png": "aae367a004816f0b36e97466ceebe31a38a41f56d9151a8b23ee62a7b4dd42e4",
+    "results/day1/figures/02_train_type_distribution.png": "864f802b5d4cde52e334d3f5726e8b867bd496e434c821744eb2283a68819079",
+    "results/day1/figures/03_train_numeric_distributions.png": "b8ce61a03bff5ed8e9be7b6ec4aab7b4fd30aaca8f7d87690fec377aeeefcb69",
+    "results/day1/figures/04_train_missingness.png": "90842de68f981f8895b7e8d30eb8f91341c918e6de8f16e0e96a2498c6415ef6",
+    "results/day1/figures/05_train_numeric_correlations.png": "3a1d3438757898d4ea4c0c3e3876ab286bf44797ba28d9462ef11bb06c1a61a8",
+    "results/day1/figures/06_train_feature_relationships.png": "c600b0868157dbb11c17efca975e29fef8ecd46aba2a2801dd973697e65b08c3",
+    "results/day1/figures/07_train_features_by_target.png": "4d8d5d956667eb4ac0b95baaf5b1a4066502ecef9519e805a0839ba3602585da",
+    "results/day1/provenance.json": "30f5eb46579dc36e29993a32a97f3891321e061f9c87ab16d4dbcf6ed831bee4",
+    "results/day1/split_manifest.json": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310",
+    "results/day1/training_partition.json": "1f1eb0235931dcebb945c1a2f7dd20c4b222eca52b1812b9dc076641e01ff177"
+  },
+  "status": "PASS",
+  "uv_lock_sha256": "896339eb8b47eb9a96de964b87d27640dc22bdc5ab469fb0987b6e62ef45e4ea"
+}

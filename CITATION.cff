@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "Please cite this software and separately attribute the original UCI dataset."
+title: "Explainable Machine Learning for Predictive Maintenance: Day 1 Research Software"
+type: software
+authors:
+  - given-names: Seyedhadi
+    family-names: Mousavi
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/Hadi-Mousavi/ai4i-explainable-predictive-maintenance"
+abstract: "Reproducible acquisition, integrity auditing, frozen stratified partitions, and training-only exploratory analysis for synthetic observation-level failure classification."

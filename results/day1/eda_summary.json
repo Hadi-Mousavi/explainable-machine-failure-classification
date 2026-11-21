@@ -1,0 +1,184 @@
+{
+  "class_counts": {
+    "0": 5797,
+    "1": 203
+  },
+  "dataset_sha256": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e",
+  "environment": {
+    "ai4i-pm": "0.1.0",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "python": "3.12.16",
+    "scikit-learn": "1.9.1"
+  },
+  "failure_modes_examined": false,
+  "figures": {
+    "01_train_class_distribution.png": "aae367a004816f0b36e97466ceebe31a38a41f56d9151a8b23ee62a7b4dd42e4",
+    "02_train_type_distribution.png": "864f802b5d4cde52e334d3f5726e8b867bd496e434c821744eb2283a68819079",
+    "03_train_numeric_distributions.png": "b8ce61a03bff5ed8e9be7b6ec4aab7b4fd30aaca8f7d87690fec377aeeefcb69",
+    "04_train_missingness.png": "90842de68f981f8895b7e8d30eb8f91341c918e6de8f16e0e96a2498c6415ef6",
+    "05_train_numeric_correlations.png": "3a1d3438757898d4ea4c0c3e3876ab286bf44797ba28d9462ef11bb06c1a61a8",
+    "06_train_feature_relationships.png": "c600b0868157dbb11c17efca975e29fef8ecd46aba2a2801dd973697e65b08c3",
+    "07_train_features_by_target.png": "4d8d5d956667eb4ac0b95baaf5b1a4066502ecef9519e805a0839ba3602585da"
+  },
+  "missing_by_column": {
+    "Air temperature [K]": 0,
+    "Machine failure": 0,
+    "Process temperature [K]": 0,
+    "Rotational speed [rpm]": 0,
+    "Tool wear [min]": 0,
+    "Torque [Nm]": 0,
+    "Type": 0
+  },
+  "models_trained": false,
+  "numeric_summary": {
+    "Air temperature [K]": {
+      "25%": 298.3,
+      "50%": 300.1,
+      "75%": 301.5,
+      "count": 6000.0,
+      "max": 304.5,
+      "mean": 299.9929666666667,
+      "min": 295.3,
+      "std": 2.001199973127197
+    },
+    "Process temperature [K]": {
+      "25%": 308.8,
+      "50%": 310.0,
+      "75%": 311.0,
+      "count": 6000.0,
+      "max": 313.8,
+      "mean": 310.0016166666667,
+      "min": 305.7,
+      "std": 1.4865443222653105
+    },
+    "Rotational speed [rpm]": {
+      "25%": 1422.0,
+      "50%": 1503.0,
+      "75%": 1612.0,
+      "count": 6000.0,
+      "max": 2874.0,
+      "mean": 1537.4921666666667,
+      "min": 1168.0,
+      "std": 177.98899765393702
+    },
+    "Tool wear [min]": {
+      "25%": 52.0,
+      "50%": 106.0,
+      "75%": 163.0,
+      "count": 6000.0,
+      "max": 253.0,
+      "mean": 107.32283333333334,
+      "min": 0.0,
+      "std": 63.75953386225424
+    },
+    "Torque [Nm]": {
+      "25%": 33.2,
+      "50%": 40.1,
+      "75%": 46.8,
+      "count": 6000.0,
+      "max": 76.6,
+      "mean": 40.07111666666667,
+      "min": 4.2,
+      "std": 9.99670177745941
+    }
+  },
+  "observations": [
+    "Training failures: 203/6000 (3.38%); rare positives motivate the prespecified imbalance-aware evaluation plan.",
+    "Air/process temperature Pearson r = 0.876; speed/torque r = -0.876. These are descriptive associations, not evidence of physical causality.",
+    "Training missing cells across the allowed predictors and target: 0.",
+    "IQR fences flag distribution tails for review; they are not domain-validity boundaries. All observations were retained and no imputation or feature selection was performed.",
+    "Target-conditioned boxplots describe unequal group sizes; they are neither model performance estimates nor causal effects."
+  ],
+  "partition": "train",
+  "pearson_correlations": {
+    "Air temperature [K]": {
+      "Air temperature [K]": 1.0,
+      "Process temperature [K]": 0.8761173676492048,
+      "Rotational speed [rpm]": 0.01616579847954004,
+      "Tool wear [min]": 0.018066494476391935,
+      "Torque [Nm]": -0.003072090097631875
+    },
+    "Process temperature [K]": {
+      "Air temperature [K]": 0.8761173676492048,
+      "Process temperature [K]": 1.0,
+      "Rotational speed [rpm]": 0.014410197864757486,
+      "Tool wear [min]": 0.014901100976735023,
+      "Torque [Nm]": -0.005883671978793276
+    },
+    "Rotational speed [rpm]": {
+      "Air temperature [K]": 0.01616579847954004,
+      "Process temperature [K]": 0.014410197864757486,
+      "Rotational speed [rpm]": 1.0,
+      "Tool wear [min]": -0.0003184848175523079,
+      "Torque [Nm]": -0.875636227735555
+    },
+    "Tool wear [min]": {
+      "Air temperature [K]": 0.018066494476391935,
+      "Process temperature [K]": 0.014901100976735023,
+      "Rotational speed [rpm]": -0.0003184848175523079,
+      "Tool wear [min]": 1.0,
+      "Torque [Nm]": -0.0013543138064246514
+    },
+    "Torque [Nm]": {
+      "Air temperature [K]": -0.003072090097631875,
+      "Process temperature [K]": -0.005883671978793276,
+      "Rotational speed [rpm]": -0.875636227735555,
+      "Tool wear [min]": -0.0013543138064246514,
+      "Torque [Nm]": 1.0
+    }
+  },
+  "predictors": [
+    "Type",
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]"
+  ],
+  "rows": 6000,
+  "split_manifest_sha256": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310",
+  "training_sha256": "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900",
+  "type_counts": {
+    "H": 564,
+    "L": 3640,
+    "M": 1796
+  },
+  "unusual_values_iqr_review": {
+    "Air temperature [K]": {
+      "lower_fence": 293.5,
+      "max": 304.5,
+      "min": 295.3,
+      "outside_fences": 0,
+      "upper_fence": 306.29999999999995
+    },
+    "Process temperature [K]": {
+      "lower_fence": 305.5,
+      "max": 313.8,
+      "min": 305.7,
+      "outside_fences": 0,
+      "upper_fence": 314.29999999999995
+    },
+    "Rotational speed [rpm]": {
+      "lower_fence": 1137.0,
+      "max": 2874.0,
+      "min": 1168.0,
+      "outside_fences": 237,
+      "upper_fence": 1897.0
+    },
+    "Tool wear [min]": {
+      "lower_fence": -114.5,
+      "max": 253.0,
+      "min": 0.0,
+      "outside_fences": 0,
+      "upper_fence": 329.5
+    },
+    "Torque [Nm]": {
+      "lower_fence": 12.800000000000011,
+      "max": 76.6,
+      "min": 4.2,
+      "outside_fences": 41,
+      "upper_fence": 67.19999999999999
+    }
+  }
+}
