@@ -1,8 +1,9 @@
 # Research protocol — Day 1 freeze
 
-This independent study currently covers data integrity, frozen partitions, and
-training-only exploration. The modeling and evaluation plans below are proposed
-and require supervisor approval before execution.
+At the Day 1 freeze, this independent study covered data integrity, frozen
+partitions, and training-only exploration. [Day 2 baseline methods](day2_baselines.md)
+record the subsequent two-model comparison. The remaining modeling and evaluation
+plans below require supervisor approval before execution.
 
 ## Objective and research questions
 

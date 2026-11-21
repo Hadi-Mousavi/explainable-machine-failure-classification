@@ -1,0 +1,30 @@
+# Approved Day 1 inputs. The raw source is identified by its provenance digest.
+[data]
+dataset_sha256 = "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e"
+split_manifest_sha256 = "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310"
+training_sha256 = "a919b8884167b94edd8f538878db122c4d0a27817aee5cff6e303894eb130900"
+rows = 6000
+positives = 203
+
+[cv]
+n_splits = 5
+shuffle = true
+random_state = 42
+
+[models.dummy_prior]
+strategy = "prior"
+
+[models.logistic_regression]
+C = 1.0
+solver = "lbfgs"
+max_iter = 2000
+class_weight = "none" # TOML has no null literal.
+random_state = 42
+
+[metrics]
+primary = "sklearn.metrics.average_precision_score"
+secondary = ["precision", "recall", "f1", "f2", "confusion_matrix", "precision_recall_curve"]
+positive_class = 1
+diagnostic_threshold = 0.5
+zero_division = 0
+fold_ap_std_ddof = 1

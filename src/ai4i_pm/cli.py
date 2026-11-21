@@ -1,4 +1,4 @@
-"""A small CPU-only command line for the complete Day 1 workflow."""
+"""CPU-only commands for data preparation and training-only analysis."""
 
 import argparse
 import json
@@ -6,6 +6,7 @@ from dataclasses import replace
 from pathlib import Path
 
 from ai4i_pm.audit import run_audit
+from ai4i_pm.baselines import run_baselines
 from ai4i_pm.data import acquire
 from ai4i_pm.eda import generate_eda
 from ai4i_pm.splits import freeze_split, read_settings
@@ -32,6 +33,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     split.add_argument("--reason", help="Required audit reason for an override")
     commands.add_parser("eda", help="Generate training-only figures and observations")
+    commands.add_parser("baselines", help="Evaluate fixed baselines on frozen training folds")
     args = parser.parse_args(argv)
     root = args.root.resolve()
     try:
@@ -52,6 +54,8 @@ def main(argv: list[str] | None = None) -> int:
                 settings = replace(settings, seed=args.seed)
             result = freeze_split(root, settings, override=args.override, reason=args.reason)
             print(json.dumps(result["validation"], indent=2))
+        elif args.command == "baselines":
+            print(json.dumps(run_baselines(root), indent=2))
         else:
             result = generate_eda(root)
             print(f"EDA: {result['rows']} training rows; {len(result['figures'])} PNG figures")

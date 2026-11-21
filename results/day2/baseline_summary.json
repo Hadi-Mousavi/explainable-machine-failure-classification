@@ -1,0 +1,29 @@
+{
+  "fold_ap_std_ddof": 1,
+  "models": {
+    "dummy_prior": {
+      "mean_fold_ap": 0.03383333333333334,
+      "oof_confusion_counts": {
+        "fn": 203,
+        "fp": 0,
+        "tn": 5797,
+        "tp": 0
+      },
+      "std_fold_ap": 0.0004564354645876376
+    },
+    "logistic_regression": {
+      "mean_fold_ap": 0.45857050707071484,
+      "oof_confusion_counts": {
+        "fn": 162,
+        "fp": 15,
+        "tn": 5782,
+        "tp": 41
+      },
+      "std_fold_ap": 0.042854975771039736
+    }
+  },
+  "partition": "train",
+  "positives": 203,
+  "prevalence": 0.03383333333333333,
+  "rows": 6000
+}

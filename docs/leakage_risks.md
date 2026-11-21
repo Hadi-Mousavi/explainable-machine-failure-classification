@@ -1,7 +1,8 @@
 # Leakage risks and seven-day controls
 
-Only Day 1 is implemented. The later-day sequence is a proposed control plan,
-subject to research-supervisor approval, not a claim of completed experiments.
+Day 1 established the controls below. [Day 2 baseline methods](day2_baselines.md)
+record their application to the two training-only classifiers. Days 3–7 remain
+subject to research-supervisor approval.
 
 | Risk | Control | Day 1 evidence / later obligation |
 | --- | --- | --- |

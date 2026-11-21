@@ -19,7 +19,7 @@ observation-level classification.
 
 The [research protocol](docs/research_protocol.md) specifies the later training
 cross-validation, validation-only threshold selection, and one final held-out
-test evaluation. Model development and evaluation remain future work.
+test evaluation. Day 2 implements the first two training-only baselines.
 
 ## Day 1 results
 
@@ -33,7 +33,40 @@ tool wear. UDI identifies rows. UDI, Product ID, and all five failure-mode
 indicators are excluded from predictors. The exploratory analysis reads only the
 checksum-verified training export. See the [leakage controls](docs/leakage_risks.md).
 
-## Reproduce the analysis
+## Day 2 baseline results
+
+On the frozen training partition, the prior-only dummy classifier had mean
+fold Average Precision (AP) of 0.033833. Unweighted logistic regression with
+fixed settings reached 0.458571. The sample SDs across five folds were
+0.000456 and 0.042855, respectively. Each fold contributed equally.
+
+AP weights precision by increases in recall as the failure-score cutoff varies.
+For separate diagnostics we classified scores ≥ 0.5 as failures. Logistic
+regression detected 41 of 203 failures and produced 15 false alarms. Precision
+is the fraction of alerts that are failures. Recall is the fraction of failures
+detected. F1 balances precision and recall, while F2 gives recall more weight.
+Undefined ratios are recorded as zero.
+
+All scores come from training rows excluded from the corresponding fit. Type is
+one-hot encoded and numeric measurements are standardized within each fit.
+The synthetic observations and unverified time and equipment structure limit
+these findings to the simulator. Operational alert utility and industrial
+generalization remain open questions. See the [Day 2 methods](docs/day2_baselines.md),
+[fold measurements](results/day2/fold_metrics.csv), and [figures](results/day2/figures).
+
+## Reproduce Day 2
+
+Use the approved Day 1 checkout with its local `data/processed/train.csv` and
+frozen metadata. The baseline command verifies the input hashes before fitting.
+The verifier repeats the run in a temporary directory containing only the approved
+inputs and compares all artifact bytes within the same runtime.
+
+```sh
+uv run --locked ai4i-pm baselines
+uv run --locked python scripts/verify_day2.py
+```
+
+## Reproduce Day 1
 
 Install [uv](https://docs.astral.sh/uv/getting-started/installation/) and run from
 the repository root. The project pins Python 3.12.16 and uses a locked CPU-only
@@ -71,9 +104,11 @@ accepts `--root PATH` before the subcommand when running from another directory.
 | --- | --- |
 | [src/ai4i_pm](src/ai4i_pm) | CLI and reusable acquisition, schema, audit, split, and analysis modules |
 | [configs/day1.toml](configs/day1.toml) | Frozen split settings |
+| [configs/day2.toml](configs/day2.toml) | Approved input digests, models, CV and diagnostic settings |
 | [docs](docs) | Research protocol, dataset attribution, and leakage controls |
 | [notebooks/01_eda.ipynb](notebooks/01_eda.ipynb) and [scripts](scripts) | Notebook, execution, and reproducibility verification |
 | [results/day1](results/day1) | Provenance, integrity audit, frozen memberships, training descriptor, training summaries, and seven figures |
+| [results/day2](results/day2) | Paired training-fold assignments, model specifications, metrics, OOF scores, curves, figures and execution hashes |
 | [tests](tests) and [.github/workflows/ci.yml](.github/workflows/ci.yml) | Offline tests and automated quality checks |
 
 Raw UCI files, the training CSV, and the executed notebook are local outputs

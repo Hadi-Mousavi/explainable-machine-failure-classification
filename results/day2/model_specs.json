@@ -1,0 +1,75 @@
+{
+  "categorical": {
+    "columns": [
+      "Type"
+    ],
+    "encoder": "OneHotEncoder",
+    "handle_unknown": "ignore"
+  },
+  "classifiers": {
+    "dummy_prior": {
+      "class": "DummyClassifier",
+      "parameters": {
+        "constant": null,
+        "random_state": null,
+        "strategy": "prior"
+      }
+    },
+    "logistic_regression": {
+      "class": "LogisticRegression",
+      "parameters": {
+        "C": 1.0,
+        "class_weight": null,
+        "dual": false,
+        "fit_intercept": true,
+        "intercept_scaling": 1,
+        "l1_ratio": 0.0,
+        "max_iter": 2000,
+        "n_jobs": null,
+        "penalty": "deprecated",
+        "random_state": 42,
+        "solver": "lbfgs",
+        "tol": 0.0001,
+        "verbose": 0,
+        "warm_start": false
+      }
+    }
+  },
+  "input_columns": [
+    "Type",
+    "Air temperature [K]",
+    "Process temperature [K]",
+    "Rotational speed [rpm]",
+    "Torque [Nm]",
+    "Tool wear [min]"
+  ],
+  "metrics": {
+    "diagnostic_threshold": 0.5,
+    "fold_ap_std_ddof": 1,
+    "positive_class": 1,
+    "primary": "sklearn.metrics.average_precision_score",
+    "secondary": [
+      "precision",
+      "recall",
+      "f1",
+      "f2",
+      "confusion_matrix",
+      "precision_recall_curve"
+    ],
+    "zero_division": 0
+  },
+  "numeric": {
+    "columns": [
+      "Air temperature [K]",
+      "Process temperature [K]",
+      "Rotational speed [rpm]",
+      "Torque [Nm]",
+      "Tool wear [min]"
+    ],
+    "scaler": "StandardScaler",
+    "with_mean": true,
+    "with_std": true
+  },
+  "preprocessing_fit": "Independently within each model and fold-training partition",
+  "remainder": "drop"
+}
