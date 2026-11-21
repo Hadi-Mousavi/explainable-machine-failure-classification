@@ -1,0 +1,45 @@
+{
+  "authorization": "Supervisor-authorized Phase 07B, one held-out release after software freeze and private publication",
+  "bootstrap": {
+    "replicates": 2000,
+    "seed": 42
+  },
+  "code_sha256": {
+    "src/ai4i_pm/final_evaluation.py": "e6a0e76922ad33ce3bdd83f398fdcb3f5e157aeb38ab152d6fe2cd34118dcc94",
+    "src/ai4i_pm/final_report.py": "bfad357a61468242127301a060506d15909525236ca677b2afd9218dd99b36dd",
+    "tests/test_final_evaluation.py": "168f1019e65afc36d59a58b0e7f656d22b287ae3324b3ae39a71797916b68193"
+  },
+  "decision_sha256": "b4c4e51eb0c19e5b26da3060d3a71311dcbd51025322001df56b8188f323fed7",
+  "environment": {
+    "ai4i-pm": "0.1.0",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.16",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "threadpoolctl": "3.8.0"
+  },
+  "evaluation_revision": "The Git commit containing this freeze record. Supply its full, independently verified private main SHA to the runner before access.",
+  "interruption_record": "test_interrupted.json",
+  "operating_threshold": 0.15,
+  "outputs": [
+    "test_started.json",
+    "test_metrics.json",
+    "primary_pr_curve.csv",
+    "primary_pr_curve.png",
+    "bootstrap_intervals.json",
+    "execution_manifest.json",
+    "final_report.md"
+  ],
+  "phase_07a_commit": "5fd17fe9862d9f50f892dbe9efca3eb2f3573079",
+  "pipelines_sha256": {
+    "primary": "b75e43e3095650adff6659e9f50f3e5d7646ed84760baec1bb45c4a4ec7daefb",
+    "reference": "d3f1ee61633ca85778bf592ec9868a1168b93d956980b0141ab429a6c462022e"
+  },
+  "protocol_sha256": "8e08ffcd2545b625b8e6822a4cafddbcd8c564f2772e4702e780262a7c12df90",
+  "source_sha256": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e",
+  "split_sha256": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310"
+}
