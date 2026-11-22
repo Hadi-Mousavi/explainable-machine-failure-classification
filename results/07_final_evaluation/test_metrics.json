@@ -1,0 +1,61 @@
+{
+  "definitions": {
+    "average_precision": "sklearn.metrics.average_precision_score on continuous scores, sum of precision weighted by recall increments",
+    "confusion": "rows actual [0,1], columns predicted [0,1], row-major TN,FP,FN,TP",
+    "decision": "score >= threshold",
+    "f1": "2*TP/(2*TP+FP+FN)",
+    "f2": "5*TP/(5*TP+FP+4*FN)",
+    "pr_curve": "sklearn.metrics.precision_recall_curve with pos_label=1 and drop_intermediate=false",
+    "precision": "TP/(TP+FP)",
+    "prevalence": "(TP+FN)/N",
+    "recall": "TP/(TP+FN)",
+    "score": "predict_proba column with classes_ == 1, finite binary64 in [0,1]",
+    "support": "TP+FN",
+    "zero_division": 0
+  },
+  "negatives": 1932,
+  "positives": 68,
+  "prevalence": 0.034,
+  "primary": {
+    "average_precision": 0.8799273420656948,
+    "diagnostic_050": {
+      "f1": 0.8305084745762712,
+      "f2": 0.7608695652173914,
+      "fn": 19,
+      "fp": 1,
+      "precision": 0.98,
+      "recall": 0.7205882352941176,
+      "threshold": 0.5,
+      "tn": 1931,
+      "tp": 49
+    },
+    "frozen": {
+      "f1": 0.6904761904761905,
+      "f2": 0.7795698924731183,
+      "fn": 10,
+      "fp": 42,
+      "precision": 0.58,
+      "recall": 0.8529411764705882,
+      "threshold": 0.15,
+      "tn": 1890,
+      "tp": 58
+    },
+    "system": "RF-11 + A4"
+  },
+  "reference": {
+    "average_precision": 0.8302142198101026,
+    "fixed_050": {
+      "f1": 0.7412587412587412,
+      "f2": 0.7636887608069164,
+      "fn": 15,
+      "fp": 22,
+      "precision": 0.7066666666666667,
+      "recall": 0.7794117647058824,
+      "threshold": 0.5,
+      "tn": 1910,
+      "tp": 53
+    },
+    "system": "HGB-10 + A0"
+  },
+  "rows": 2000
+}

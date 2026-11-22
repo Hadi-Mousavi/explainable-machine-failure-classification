@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-message: "Please cite this software and separately attribute the original UCI dataset."
+message: "Please cite this software and separately cite the UCI dataset (doi:10.24432/C5HS5C) and its introductory paper."
 title: "Explainable Machine Learning for Equipment Failure Classification"
 type: software
 authors:
@@ -8,4 +8,15 @@ authors:
 version: 0.1.0
 license: MIT
 repository-code: "https://github.com/Hadi-Mousavi/explainable-machine-failure-classification"
-abstract: "Training-fold evaluation of fixed baselines, tree ensembles and physics-informed features for observation-level failure classification on the synthetic UCI AI4I 2020 dataset."
+abstract: "Observation-level equipment failure classification on the synthetic UCI AI4I 2020 dataset, including training-fold model and feature comparisons, model explanations, partition sensitivity and a held-out evaluation of a validation-thresholded random forest."
+references:
+  - type: conference-paper
+    authors:
+      - family-names: Matzka
+        given-names: Stephan
+    title: "Explainable Artificial Intelligence for Predictive Maintenance Applications"
+    collection-title: "2020 Third International Conference on Artificial Intelligence for Industries (AI4I)"
+    year: 2020
+    start: 69
+    end: 74
+    doi: "10.1109/AI4I49448.2020.00023"

@@ -1,0 +1,78 @@
+{
+  "approval_sha256": "f7c768a0c72410b98995cd5022dfb2e345ffa735aaae8c0f6aa275b1806b358c",
+  "completed_utc": "2026-11-21T22:00:29+00:00",
+  "decision_sha256": "b4c4e51eb0c19e5b26da3060d3a71311dcbd51025322001df56b8188f323fed7",
+  "deviations": [],
+  "environment": {
+    "ai4i-pm": "0.1.0",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2",
+    "numpy": "2.5.5",
+    "pandas": "2.3.3",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.16",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "threadpoolctl": "3.8.0"
+  },
+  "events": [
+    {
+      "event": "release started",
+      "utc": "2026-11-21T22:00:25+00:00"
+    },
+    {
+      "event": "test membership, schema and class support verified",
+      "utc": "2026-11-21T22:00:25+00:00"
+    },
+    {
+      "event": "primary predict_proba started",
+      "utc": "2026-11-21T22:00:25+00:00"
+    },
+    {
+      "event": "primary predict_proba completed",
+      "utc": "2026-11-21T22:00:25+00:00"
+    },
+    {
+      "event": "reference predict_proba started",
+      "utc": "2026-11-21T22:00:25+00:00"
+    },
+    {
+      "event": "reference predict_proba completed",
+      "utc": "2026-11-21T22:00:25+00:00"
+    },
+    {
+      "event": "metrics, PR curve, intervals and report written",
+      "utc": "2026-11-21T22:00:29+00:00"
+    }
+  ],
+  "fit_manifest_sha256": "f2fee00e6ed240e69c7c0203f0e24341ef17f64a44fc06b4b42edd7199b14fd0",
+  "native_threads": 1,
+  "negatives": 1932,
+  "output_sha256": {
+    "bootstrap_intervals.json": "14895399ca1b0154d2718d80911fb536ff90cb9fb0f50e0338f7df893312f70e",
+    "final_report.md": "16a30d5e9415a0f82ddf17bd176badbfd6162c23051531265b832f464a630c44",
+    "primary_pr_curve.csv": "a4cc4f821edcb93445c87de7f2be3d30f087cc478f4237481fc184e291bea5a4",
+    "primary_pr_curve.png": "dccae83bbba3eab9227b9c6f8fd33ae98e61a5271a1f79e02841945dd80335d3",
+    "test_metrics.json": "4bca19c67d15407bc6e74ff2ef62587859832b0b303b3dd674b9441c04517066",
+    "test_started.json": "ed4f4708a6ef3655f2d1a987799d038a1eb514b270ac0f45d9fd0211b7b7156d"
+  },
+  "phase_07a_commit": "5fd17fe9862d9f50f892dbe9efca3eb2f3573079",
+  "pipelines_sha256": {
+    "primary": "b75e43e3095650adff6659e9f50f3e5d7646ed84760baec1bb45c4a4ec7daefb",
+    "reference": "d3f1ee61633ca85778bf592ec9868a1168b93d956980b0141ab429a6c462022e"
+  },
+  "plan_sha256": "43358b05aa9f8010fc22770aed9df7b31612b65d03dc58b647da7ea8933e0d0c",
+  "positives": 68,
+  "protocol_sha256": "8e08ffcd2545b625b8e6822a4cafddbcd8c564f2772e4702e780262a7c12df90",
+  "reserved_utc": "2026-11-21T22:00:25+00:00",
+  "revision": "47cc09cd1e91035472df965507ce5e4dee61527a",
+  "rows": 2000,
+  "score_vector_encoding": "ascending UDI, little-endian float64",
+  "scores_sha256": {
+    "primary": "4ea3b1372767519fc7dc1f59422c80215365dd7197318f469cc73d38c946fbfe",
+    "reference": "3a6477d787a0190d369a8454f160ad3f9a29b362ed78ae72dd24fbaefc7011a2"
+  },
+  "source_sha256": "dc6630cd9b1f0f853922fad78a1b6436570d3f1ec863f1dd5c4340ac56bc8a8e",
+  "split_sha256": "4ac9dea7352d9da8a9e7a52d241325e3e9df593aab1423c587e880d79b2fd310",
+  "test_udi_sha256": "276baa1391ce8fe2262f03531f74d6276f2594a2d5d2e7bca88d25424b198932"
+}

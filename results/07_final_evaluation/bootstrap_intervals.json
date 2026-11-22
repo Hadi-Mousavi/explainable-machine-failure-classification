@@ -1,0 +1,25 @@
+{
+  "average_precision": {
+    "estimate": 0.8799273420656948,
+    "lower": 0.8105431975181655,
+    "upper": 0.9417311542347994
+  },
+  "confidence": 0.95,
+  "generator": "NumPy PCG64",
+  "method": "Within-class pairs with replacement, ascending UDI, positive then negative",
+  "negatives": 1932,
+  "positives": 68,
+  "quantile_method": "linear",
+  "quantiles": [
+    0.025,
+    0.975
+  ],
+  "recall": {
+    "estimate": 0.8529411764705882,
+    "lower": 0.7647058823529411,
+    "upper": 0.9264705882352942
+  },
+  "replicates": 2000,
+  "seed": 42,
+  "threshold": 0.15
+}
