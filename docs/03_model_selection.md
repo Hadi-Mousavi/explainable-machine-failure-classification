@@ -81,9 +81,11 @@ ranking. Probability calibration would require a separate assessment.
 Selecting the highest score after comparing candidates on the same folds can
 inflate the apparent performance of the winner. Fold SD measures dispersion
 and supplies no confidence interval. Phase 03 uses continuous scores throughout.
-The Phase 02 diagnostic cutoff stays at 0.5. There is no selected alert threshold,
-post-selection OOF analysis or held-out evaluation. Test performance remains
-unknown. The simulator provides no verified equipment identities, time horizon
+The Phase 02 diagnostic cutoff stays at 0.5. This phase used the original training folds throughout. The later study selected an
+alert cutoff on validation and measured performance on the reserved test partition.
+[Final evaluation](../research/07_final_evaluation/README.md)
+
+The simulator provides no verified equipment identities, time horizon
 or operational costs, so these observations cannot establish forecasting
 performance, field transfer or the value of acting on an alert.
 
@@ -117,4 +119,4 @@ scores and all 13 paired contrasts. Nine of the eleven output files matched
 byte-for-byte, including the fold ledger, selection record and three figures.
 The candidate table and execution record include measured times. The recorded
 comparison took 97.55 seconds with Python 3.12.16 and scikit-learn 1.9.1.
-See the [replay commands](../README.md#replay-the-published-training-studies).
+See the [phase replay command](../research/03_model_selection/README.md).

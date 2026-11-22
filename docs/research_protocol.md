@@ -1,6 +1,6 @@
 # Research protocol
 
-The frozen primary design supports exploration, baseline evaluation, model selection and feature ablation. Explainability, robustness analysis and final evaluation are planned.
+This document records the design through the feature ablation study. The later phase records specify how the study carried out the analyses proposed here. [Explainability](05_explainability.md) · [Robustness](06_robustness_analysis.md) · [Final evaluation protocol](07_final_evaluation_protocol.md)
 
 ## Objective and research questions
 
@@ -100,7 +100,7 @@ can reflect recovery of a simulator's construction rather than physical insight
 or real equipment performance. Describe this overlap before interpreting gains;
 do not inspect failure-mode/target relationships to choose the ablations.
 
-## Future robustness analysis (not implemented)
+## Original plan for robustness analysis
 
 A separately prespecified sensitivity analysis will sort by UDI and form ordered
 partitions. UDI is neither a verified timestamp nor an independent equipment ID.
@@ -117,5 +117,5 @@ may share local generating conditions across partitions. Feature importance or
 SHAP-style explanations cannot establish physical causal effects. Neither
 equipment-level transfer nor a future failure horizon is demonstrated.
 
-Supervisor review is needed for threshold utility, search scope, uncertainty,
-refitting strategy, and the ordered sensitivity protocol. [Leakage controls](leakage_risks.md)
+The final protocol records the F2 selection rule, training-only fit and
+class-stratified bootstrap. [Final decision record](../research/07_final_evaluation/README.md) · [Leakage controls](leakage_risks.md)

@@ -50,4 +50,4 @@ These SHA-256 digests identify the reader documents in this release. The experim
 | [report/final_report.md](final_report.md) | `55bc18f035d115da5ffef2b487de4452f4519ba45400a054d8b46953e207cb35` |
 | [report/final_report.pdf](final_report.pdf) | `2464d486c24e19fc312c4798377185a076874eee8ca268880676c154c77a0aaf` |
 | [research/07_final_evaluation/README.md](../research/07_final_evaluation/README.md) | `cc395a48f65a29b3e7b6e623fe3dfde354a286a4cfbcaf425fee983766be4e56` |
-| [report/scientific_integrity_audit.md](scientific_integrity_audit.md) | `e340a51e60122e04f14aaffb88120cd2c78087f71d00c7ed84a86c5d75214259` |
+| [report/scientific_integrity_audit.md](scientific_integrity_audit.md) | `f5a026a2246662aa38f7028061ad68161f5f682da04e9039319823106a8e5683` |

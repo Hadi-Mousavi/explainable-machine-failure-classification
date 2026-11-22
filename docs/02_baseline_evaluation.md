@@ -52,10 +52,10 @@ At 0.5 it still missed 162 of 203 failures. The data establish neither the cost
 of a missed failure nor the cost of investigating a false alarm. Synthetic
 generation, limited positive support and absent equipment IDs and verified
 timestamps restrict inference about field performance and prospective failures.
-Primary validation and test observations remain reserved for later approval.
+This phase used only the training partition. [Final validation and test results](../research/07_final_evaluation/README.md)
 
 The [execution record](../results/02_baseline_evaluation/execution.json) lists the environment and
-SHA-256 digests. The replay command in the [README](../README.md) verifies the
+SHA-256 digests. The replay command in the [phase guide](../research/02_baseline_evaluation/README.md) verifies the
 saved fold/OOF identities and compares two runs on the same environment. Numeric
 libraries, fonts and rendering backends can affect bytes across platforms.
 The derived results use the synthetic UCI AI4I 2020 dataset under CC BY 4.0.

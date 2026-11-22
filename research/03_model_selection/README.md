@@ -1,6 +1,6 @@
 # Model selection
 
-Which prespecified configuration ranks synthetic failures most accurately on the original inputs? Across 27 candidates and 135 successful fold evaluations, balanced histogram gradient boosting (HGB-10) ranked first at **0.759824** mean average precision (AP). The best random forest (RF-11) reached **0.747959**. The next boosting candidate trailed the leader by only 0.001266 AP before rounding. HGB-10 remains provisional. [Candidate rankings](../../results/03_model_selection/model_comparison.md) · [Provisional specification](../../results/03_model_selection/selected_configuration.json)
+Which prespecified configuration ranks synthetic failures most accurately on the original inputs? Across 27 candidates and 135 successful fold evaluations, balanced histogram gradient boosting (HGB-10) ranked first at **0.759824** mean average precision (AP). The best random forest (RF-11) reached **0.747959**. The next boosting candidate trailed the leader by only 0.001266 AP before rounding. This original-feature comparison established HGB-10 as the reference for the later held-out evaluation. [Candidate rankings](../../results/03_model_selection/model_comparison.md) · [Provisional specification](../../results/03_model_selection/selected_configuration.json)
 
 ## Method and findings
 

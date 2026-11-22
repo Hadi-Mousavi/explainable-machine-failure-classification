@@ -4,7 +4,7 @@ All three stratified assignments gave the same mean average precision (AP) order
 
 ## Preregistration and data boundary
 
-Phase 06 began on clean `main` at Phase 05 commit `4debe0c69bc020206aa2f0e10591f6a1e7ce6048`. Before fitting, the protocol fixed the models, input digests, seeds, exact alternative membership digests, cut points, class diagnostics, runtime settings, aggregation and treatment of undefined metrics. Its SHA-256 is `a50f7fbda76b3eb32d87dc6cae9824c13be74ade02c19aadd18093e672e23d6b`. [Preregistered protocol](../configs/06_robustness_analysis.toml)
+Phase 06 used the Phase 05 implementation at commit `4debe0c69bc020206aa2f0e10591f6a1e7ce6048`. Before fitting, the protocol fixed the models, input digests, seeds, exact alternative membership digests, cut points, class diagnostics, runtime settings, aggregation and treatment of undefined metrics. Its SHA-256 is `a50f7fbda76b3eb32d87dc6cae9824c13be74ade02c19aadd18093e672e23d6b`. [Preregistered protocol](../configs/06_robustness_analysis.toml)
 
 The 6,000 approved training observations contained 203 positives and 5,797 negatives. The loader verified the source CSV identity against frozen provenance, hashed the primary split manifest as opaque bytes, and verified the training CSV, its UDI membership and the original CV manifest. The original source CSV and primary validation and test observations were outside the replay directory. The only observation input was the training export. [Execution and input inventory](../results/06_robustness_analysis/execution.json)
 
@@ -56,9 +56,9 @@ On A0, HGB led RF for every random seed, while RF led HGB by .045656 in the orde
 
 Temperature difference and mechanical power occur in the simulator's failure rules. Explicitly providing those quantities may help the trees recover synthetic label structure across partitions. Ordered evaluation also changes training size, fit composition, evaluation prevalence and which observations receive scores. The first 2,400 rows contribute only to fitting in the ordered design. Those differences prevent attributing the AP change to any single mechanism. [Dataset methodology and attribution](dataset.md)
 
-UDI has no verified timestamp or equipment identity. These comparisons cannot establish temporal shift, independence of equipment observations, prospective forecasting, physical causality, statistical superiority or transfer to industrial equipment. Phase 03 chose candidates using the original folds. Subsequent analysis on overlapping observations carries selection optimism. Model adoption, operational thresholds and held-out performance remain open.
+UDI has no verified timestamp or equipment identity. These comparisons cannot establish temporal shift, independence of equipment observations, prospective forecasting, physical causality, statistical superiority or transfer to industrial equipment. Phase 03 chose candidates using the original folds. Subsequent analysis on overlapping observations carries selection optimism. The subsequent final evaluation records the model choice, validation cutoff and held-out performance. [Phase 07](../research/07_final_evaluation/README.md)
 
-## Reproduction and acceptance evidence
+## Reproduction
 
 Scientific reproduction requires the matching training export and frozen repository inputs. The CLI creates the Phase 06 output on its first run and checks the existing inventory on subsequent calls. The verifier independently refits all 52 evaluations in a fresh directory.
 
@@ -69,30 +69,5 @@ uv run --locked python scripts/verify_06_robustness.py
 ```
 
 The isolated replay reproduced all 52 new APs and all 20 historical references with maximum absolute AP difference 0 (acceptance tolerance 10⁻¹²). Nine of 12 result files matched byte for byte, including both manifests, both summaries and all four figures. Measured runtimes differed in the two metric CSVs, changing their hashes in the execution record. Reference rows identify their Phase 04 origin and leave unavailable per-fit runtimes empty. [Replay verifier](../scripts/verify_06_robustness.py) · [Boundary, membership, scoring and replay tests](../tests/test_robustness.py)
-
-### Post-implementation software verification
-
-The November 21, 2026 check ran from a fresh temporary copy of all 152 tracked and non-ignored working files. Each copied file matched its source SHA-256. The only entries under `data/` were the two empty `.gitkeep` files. Tests that fit models used artificial fixtures. The installed package resolved to the copied source tree. The environment used uv 0.13.9, Python 3.12.16, SHAP 0.54.1, pytest 9.2.0 and Ruff 0.17.6.
-
-```sh
-uv sync --locked
-uv pip install --require-hashes -r configs/05_shap_requirements.txt
-uv run --locked pytest -q
-uv run --locked ruff check .
-uv run --locked ruff format --check .
-```
-
-All five commands exited with status 0. Pytest reported **127 passed, 0 failed, 0 skipped, 0 errors and 4 warnings in 60.80 seconds**. All four warnings came from the artificial Phase 01 EDA test `test_eda_reads_only_training_values`. Seaborn emitted one pending deprecation warning for the colormap method `set_bad` and three Matplotlib deprecation warnings for the boxplot argument `vert`. Ruff lint passed and Ruff reported all 65 files already formatted.
-
-After the suite, the frozen TOML and all 12 Phase 06 result files matched their pre-run SHA-256 digests in both copies. The 11 artifact hashes recorded inside `execution.json` also matched. The execution record itself retained SHA-256 `16b80a331053d2ccb4b38128318e0aabe7696da21b7c491e54998f9d401e5041`.
-
-| Supervisor acceptance check | Evidence |
-| --- | --- |
-| Training isolation and preregistration | Frozen input digests and model specifications, pre-fit membership digests for both seeds, predefined ordered cuts |
-| Paired comparisons | Exact UDI lists, per-fit and per-evaluation class counts, 40 random fits and 12 ordered fits, 20 historical reference rows |
-| Scientific reproducibility | 72/72 scores agreed exactly, 9/12 files byte-identical, four figures inspected |
-| Software quality | Complete suite passed in the observation-free copy (127 passed, 4 plotting-library warnings). Repository-wide Ruff lint and formatting passed. |
-| Scientific artifact integrity after software checks | All 13 Phase 06 scientific files matched their pre-run SHA-256 digests in the working tree and the test copy. |
-| Publication boundary | The supervisor authorized Phase 06 publication on private main. Final evaluation requires separate approval. |
 
 AI4I 2020 Predictive Maintenance Dataset (2020), UCI Machine Learning Repository, CC BY 4.0. The tables, memberships and figures derive from the training partition. [Source and license](dataset.md)

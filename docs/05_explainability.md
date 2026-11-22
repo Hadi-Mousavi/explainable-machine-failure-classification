@@ -6,7 +6,7 @@ Shuffling torque reduced mean fold average precision (AP) more than shuffling an
 
 The experiment starts from migration commit `1e8d63214da6cbac603f27ca583db79a24787eee`. It verifies the approved training export (6,000 observations, 203 failures), its ordered UDIs and the five frozen evaluation memberships. Each model fit used 4,800 observations and explained only observations from the other 1,200. The unperturbed APs of all 20 model-fold combinations exactly reproduced Phase 04. The only observation file in the replay directory was the training CSV. The loader verified the original dataset digest through the provenance record and hashed the split manifest as opaque bytes. [Protocol and input checksums](../configs/05_explainability.toml) · [Complete specifications and folds](../results/05_explainability/explanation_config.json)
 
-A0 contains Type, air temperature, process temperature, rotational speed, torque and tool wear. A4 adds process minus air temperature (K) and torque × rotational speed × 2π/60 (W). Each fold learned its own Type encoding. The two classifiers kept their Phase 03 parameters, including HGB's balanced class weights and the forest's unweighted fit. HGB-10 + A0 retains its provisional selection status. RF-11 + A4 retains its exploratory status.
+A0 contains Type, air temperature, process temperature, rotational speed, torque and tool wear. A4 adds process minus air temperature (K) and torque × rotational speed × 2π/60 (W). Each fold learned its own Type encoding. The two classifiers kept their Phase 03 parameters, including HGB's balanced class weights and the forest's unweighted fit. At this stage HGB-10 + A0 was the provisional selection and RF-11 + A4 was exploratory. The final protocol subsequently designated the forest as primary. [Final study design](../research/07_final_evaluation/README.md)
 
 ## Predictive reliance across five folds
 
@@ -57,7 +57,7 @@ AP permutation measures how much the ordering of positive labels deteriorates af
 
 SHAP instead allocates the departure of a single model output from its baseline across fitted coordinates. Tree structure, interactions, class weighting and redundant features affect that allocation. The forest can split on measured speed, torque or their product. In the global forest summary, temperature difference ranked fourth (0.0117 probability units) and power fifth (0.0083). Power nonetheless made the largest contribution at UDI 1497. Likewise, frequent wear contributions on the mostly negative global sample can rank wear highly even when scrambling torque is more damaging to AP on rare positives. Only four sampled positives limit failure-specific interpretation of these averages.
 
-The simulator explicitly uses temperature difference in heat dissipation and mechanical power in its power-failure rule. Providing these relationships as inputs lets trees approximate parts of the label generator directly. Their Phase 04 AP gains and their local contributions are consistent with that explanation. Because both derived quantities are deterministic functions of supplied measurements, these analyses cannot isolate a unique physical effect or identify which failure mechanism generated an individual label. The study reused selection folds and concerns classification of synthetic individual observations. Generalization to other equipment, future failures and operational thresholds remains open. [Generator description and dataset attribution](https://doi.org/10.24432/C5HS5C) · [Paired ablations](04_feature_ablation.md)
+The simulator explicitly uses temperature difference in heat dissipation and mechanical power in its power-failure rule. Providing these relationships as inputs lets trees approximate parts of the label generator directly. Their Phase 04 AP gains and their local contributions are consistent with that explanation. Because both derived quantities are deterministic functions of supplied measurements, these analyses cannot isolate a unique physical effect or identify which failure mechanism generated an individual label. The study reused selection folds and concerns classification of synthetic individual observations. Transfer to other equipment and the cost of acting on an alert remain unmeasured. [Generator description and dataset attribution](https://doi.org/10.24432/C5HS5C) · [Paired ablations](04_feature_ablation.md)
 
 ## Reproduction
 
@@ -76,31 +76,5 @@ uv run --locked ruff format --check .
 The isolated replay reconstructed all 600 measurements and reproduced all 17 files byte for byte on Python 3.12.16, scikit-learn 1.9.1, NumPy 2.5.5 and SHAP 0.54.1. The maximum numeric difference in the SHAP archive was zero. The verifier checks archive arrays and tables at absolute tolerance 10⁻¹², verifies deterministic metadata and reports each differing file. Platform metadata, rendering libraries and floating-point reductions can affect byte comparisons across environments. Elapsed time is machine-dependent and is excluded from scientific artifacts. [Execution record and SHA-256 inventory](../results/05_explainability/execution.json) · [Replay verifier](../scripts/verify_05_explainability.py)
 
 The NPZ stores each model's union of sampled and local UDIs. For each model prefix, `global_mask` identifies the 300 rows for aggregation. Arrays include transformed values and ordered feature names, signed SHAP values, baselines, matching model outputs, continuous class-1 probabilities and observed labels. The local CSV uses one row per selected model, UDI and transformed feature. A0 has no values in the two A4-only measurement fields. [Attribution archive](../results/05_explainability/shap_values.npz)
-
-## Supervisor review
-
-| Acceptance check | Status | Evidence |
-| --- | --- | --- |
-| Migrated baseline and earlier results | PASS | Clean starting tree on `main` at the expected commit. Git comparison verified the four earlier configurations, result trees, migration ledger and root lock. |
-| Training and fold isolation | PASS | Training-export and CV digests match the frozen design. An isolated replay with only approved inputs produced identical results. |
-| Fixed configurations and perturbations | PASS | 20 fold fits, 600 recorded permutations, zero deviation from the reference APs. |
-| SHAP compatibility and sampling | PASS | Both public TreeExplainer preflights passed. The global IDs, class axes and reconstruction errors are recorded. |
-| Global and local evidence | PASS | Seven figures, full signed values and 16 deterministic case selections across two models. |
-| Reproducibility | PASS | All 17 files matched by SHA-256. Maximum SHAP archive difference was zero. |
-| Software quality | PASS | 117 tests passed with SHAP installed. The suite ran in a copy without observation files. Ruff lint and formatting passed. Four existing Seaborn/Matplotlib deprecation warnings arose in the Phase 01 EDA fixture. |
-| Phase boundary | PASS | Local, uncommitted Phase 05 evidence awaits review. Model adoption and later research phases remain with the supervisor. |
-
-### Working-tree inventory
-
-The three modified tracked files are the root README, the CLI in `src/ai4i_pm/cli.py` and `.github/workflows/ci.yml` for the hash-pinned SHAP test environment.
-
-| New files by location | Files |
-| --- | --- |
-| `configs/` | `05_explainability.toml`, `05_shap_requirements.txt` |
-| `src/ai4i_pm/` | `explainability.py`, `shap_analysis.py`, `explainability_figures.py` |
-| Verification | `scripts/verify_05_explainability.py`, `tests/test_explainability.py` |
-| Documentation | `docs/05_explainability.md`, `research/05_explainability/README.md` |
-| `results/05_explainability/` | `execution.json`, `explanation_config.json`, `explanation_summary.md`, `permutation_fold_results.csv`, `permutation_fold_summary.csv`, `permutation_summary.csv`, `shap_metadata.json`, `shap_summary.csv`, `shap_values.npz`, `local_explanations.csv` |
-| `results/05_explainability/figures/` | `permutation.png`, `M1_global.png`, `M1_effects.png`, `M1_local.png`, `M4_global.png`, `M4_effects.png`, `M4_local.png` |
 
 AI4I 2020 Predictive Maintenance Dataset (2020), UCI Machine Learning Repository, CC BY 4.0. Tables, case measurements and figures derive from the dataset. [Provenance and license](dataset.md)

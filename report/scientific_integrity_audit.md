@@ -4,7 +4,7 @@
 
 ## Git provenance and scientific freeze
 
-Before the evaluation outputs were prepared for publication, `main`, local `origin/main` and the revision in the final execution manifest all identified `47cc09cd1e91035472df965507ce5e4dee61527a`. It contains the software freeze for test execution. Its parent `5fd17fe` froze the validation decision, following the protocol commit `7c2232a`. The robustness, explanation, ablation, model-search, baseline and foundation commits precede those decisions. The index was empty of changes. At the start of the final publication audit, the working tree held edits to the README and citation metadata, the report documents, the Phase 07 guide and the seven original final release records named in the [publication inventory](publication_inventory.md). Direct inspection confirmed the tracked Phase 04–06 directories were present.
+Before the evaluation outputs were prepared for publication, `main`, local `origin/main` and the revision in the final execution manifest all identified `47cc09cd1e91035472df965507ce5e4dee61527a`. It contains the software freeze for test execution. Its parent `5fd17fe` froze the validation decision, following the protocol commit `7c2232a`. The robustness, explanation, ablation, model-search, baseline and foundation commits precede those decisions.
 
 The expanded report lives outside the result tree because the original execution report is one of the six checksum-bound outputs. No model selection, threshold search, scientific replay, bootstrap resampling or test observation access was part of this audit. The saved aggregate curve and confusion counts are sufficient to check several results independently.
 
@@ -25,11 +25,11 @@ The review inventoried tracked and non-ignored paths and checked ignored data an
 
 Filename and text-pattern checks covered common provider tokens, private-key headers, credential-bearing URLs, secret assignments and machine-specific paths. No matching credential or machine-local path was found in the reviewed publication text. This is a scoped screen of the active files. It does not certify every historical Git object or every possible secret encoding. Local virtual environments, bytecode and tool caches stay outside the publication set.
 
-The root README, software citation abstract and Phase 07 guide now describe the completed evaluation. Earlier protocols and phase reports retain statements about decisions that were still pending when they were written. In particular the approved 07A protocol is hash-bound. The final guide dates those decisions and links to the later execution record.
+The approved Phase 07A protocol records the decision boundary at the time of its approval. The [Phase 07 guide](../research/07_final_evaluation/README.md) links it to the subsequent execution freeze and held-out evaluation.
 
 ## Software and documentation checks
 
-The full pytest suite ran from a temporary copy of the publication files, with the package imported from the copied source. The copy excluded observation files, private score exports and serialized models. Model-fitting tests used artificial fixtures. All 145 tests passed in 61.51 seconds. Four deprecation warnings came from Seaborn/Matplotlib in the training-EDA fixture. Ruff lint passed and Ruff's format check accepted all 77 Python files.
+The full pytest suite ran from a temporary copy of the publication files, with the package imported from the copied source. The copy excluded observation files, private score exports and serialized models. Model-fitting tests used artificial fixtures. All 145 tests passed in 61.51 seconds. Four deprecation warnings came from Seaborn/Matplotlib in the training-EDA fixture. Ruff lint passed and the format check reported 77 files already formatted.
 
 The documentation check resolved relative links, image paths and referenced Markdown heading anchors across the root, phase guides, results, report and exploration notebook. The report bibliography was checked against the UCI record, IEEE, JMLR, the NeurIPS proceedings, Springer and the scikit-learn documentation. UCI identifies Matzka’s 2020 conference paper as the introductory publication. IEEE confirms the title, conference and DOI, and the author’s university confirms pages 69–74. The DOI identifiers were confirmed at their landing pages. The original dataset archive was not fetched. The six-page PDF was rendered for visual review, including its figure captions and test table.
 

@@ -10,4 +10,4 @@ How sensitive are the fixed models to reassignment of training folds and to the 
 | [Summary tables](../../results/06_robustness_analysis/robustness_summary.md) and [numerical summary](../../results/06_robustness_analysis/robustness_summary.json) | Fold and block dispersion, rankings, paired feature contrasts and between-strategy differences |
 | [Figures](../../results/06_robustness_analysis/figures) and [execution inventory](../../results/06_robustness_analysis/execution.json) | Four scientific figures, software versions, input and output digests |
 
-All comparisons use the original 6,000 training observations. UDI has no verified temporal or equipment interpretation. Primary validation and test evaluation require separate authorization.
+All comparisons use the original 6,000 training observations. UDI has no verified temporal or equipment interpretation. The [final evaluation](../07_final_evaluation/README.md) reports the separately reserved validation and test results.

@@ -104,9 +104,9 @@ There are only 40 or 41 failures in an evaluation fold, so changes in the ranks 
 few positives can affect AP. Sample SD uses denominator four and describes fold
 dispersion. The fits overlap, and Phase 03 chose the two models using these same folds.
 Selection optimism and dependence limit inference about generalization. The five
-differences provide no significance test or confidence interval. HGB-10 retains
-its provisional status. Supervisor review is needed before adopting a feature set,
-changing the primary model, or authorizing another phase.
+differences provide no significance test or confidence interval. HGB-10 was the provisional original-feature choice at this stage.
+The final protocol later selected RF-11 + A4 for held-out evaluation.
+[Final design and decision](../research/07_final_evaluation/README.md)
 
 ## Figures and reproduction
 

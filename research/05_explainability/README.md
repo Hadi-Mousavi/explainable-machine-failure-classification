@@ -10,4 +10,4 @@ All four fixed classifier and feature combinations were fitted on the five froze
 | [SHAP metadata](../../results/05_explainability/shap_metadata.json) | Exact sample IDs, positive-class coordinates, category counts and reconstruction checks |
 | [Execution inventory](../../results/05_explainability/execution.json) | Runtime versions and artifact checksums |
 
-The label concerns a single synthetic observation. The 0.5 cutoff defines diagnostic cases. The provisional HGB selection and exploratory forest result remain open for supervisor review.
+The label concerns a single synthetic observation. The 0.5 cutoff defines diagnostic cases. The explanations describe fitted models on training folds. The later model choice and validation cutoff are documented in the [final evaluation](../07_final_evaluation/README.md).
